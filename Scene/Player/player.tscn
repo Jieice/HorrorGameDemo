@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctvbe81cn76qj"]
+
+[ext_resource type="Script" uid="uid://l75rb275io5y" path="res://Script/Player/player.gd" id="1_3x5gi"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t5ctn"]
+
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
+script = ExtResource("1_3x5gi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_t5ctn")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.46898, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0310203, 0)
+current = true
+
+[node name="RayCast3D" type="RayCast3D" parent="Pivot/Camera3D"]
+target_position = Vector3(0, 0, -2)
+collide_with_areas = true
+collision_mask = 3
+debug_shape_custom_color = Color(1, 0, 0, 1)
+
+[node name="InteractHint" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -113.0
+offset_top = -38.0
+offset_right = 113.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

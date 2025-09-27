@@ -1,0 +1,238 @@
+[gd_scene load_steps=15 format=3 uid="uid://5oerfqve4qop"]
+
+[ext_resource type="Texture2D" uid="uid://det3gy7cp65uk" path="res://Assets/Environment/dikhololo_night_2k.exr" id="5_h5d2d"]
+[ext_resource type="PackedScene" uid="uid://cqn7j8rvbwdu1" path="res://Scene/escena.tscn" id="5_me7wt"]
+[ext_resource type="PackedScene" uid="uid://doxgcru2gtel8" path="res://Assets/3DModels/light.glb" id="5_s50bo"]
+[ext_resource type="PackedScene" uid="uid://b8pj6nfet87qc" path="res://Assets/3DModels/Sence1.glb" id="7_a5owa"]
+[ext_resource type="PackedScene" uid="uid://d8j4x2l5k3b9c" path="res://Scene/Characters/man.tscn" id="7_r7xep"]
+[ext_resource type="PackedScene" uid="uid://b3cq0swmd2ntu" path="res://Scene/grass.tscn" id="7_s3ls2"]
+[ext_resource type="PackedScene" uid="uid://bw5b4vkf7kx0y" path="res://Assets/3DModels/train.glb" id="8_a5owa"]
+
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ru0v1"]
+size = Vector3(7.26978, 4.34851, 1)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ru0v1"]
+panorama = ExtResource("5_h5d2d")
+
+[sub_resource type="Sky" id="Sky_qh1xb"]
+sky_material = SubResource("PanoramaSkyMaterial_ru0v1")
+
+[sub_resource type="Environment" id="Environment_h5d2d"]
+background_mode = 2
+sky = SubResource("Sky_qh1xb")
+tonemap_mode = 2
+tonemap_exposure = 0.8
+tonemap_white = 1.2
+ssr_enabled = true
+ssao_enabled = true
+ssao_radius = 0.2
+ssao_intensity = 1.5
+sdfgi_enabled = true
+glow_enabled = true
+glow_intensity = 0.6
+glow_strength = 2.0
+glow_bloom = 0.6
+fog_enabled = true
+fog_light_color = Color(0.227451, 0.227451, 0.313726, 1)
+fog_light_energy = 0.3
+fog_density = 0.02
+fog_height = 2.0
+
+[sub_resource type="Animation" id="Animation_s3ls2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-9.91827, 1.662, -74.6769)]
+}
+
+[sub_resource type="Animation" id="Animation_a5owa"]
+resource_name = "move"
+length = 25.0
+loop_mode = 2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(5, 15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-9.91827, 1.662, -74.6769), Vector3(-9.91827, 1.662, 74.2812)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_od2nk"]
+_data = {
+&"RESET": SubResource("Animation_s3ls2"),
+&"move": SubResource("Animation_a5owa")
+}
+
+[node name="Sence1" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12)
+shape = SubResource("BoxShape3D_ru0v1")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 12)
+shape = SubResource("BoxShape3D_ru0v1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h5d2d")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 8)
+shadow_enabled = true
+omni_range = 8.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -8)
+shadow_enabled = true
+omni_range = 8.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shadow_enabled = true
+omni_range = 8.0
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.23909, 5, 8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.23909, 5, -8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.23909, 5, 0)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.86492, 5, 8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.86492, 5, -8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D9" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.86492, 5, 0)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="escena" type="Node3D" parent="."]
+
+[node name="escena" parent="escena" instance=ExtResource("5_me7wt")]
+
+[node name="escena2" parent="escena" instance=ExtResource("5_me7wt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -10)
+
+[node name="escena3" parent="escena" instance=ExtResource("5_me7wt")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="escena4" parent="escena" instance=ExtResource("5_me7wt")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.5, 10)
+
+[node name="convert" type="Node3D" parent="."]
+
+[node name="lights" type="Node3D" parent="convert"]
+
+[node name="convert" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, 0)
+
+[node name="convert2" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, -1.23951)
+
+[node name="convert3" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, 0)
+
+[node name="convert4" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, -1.23951)
+
+[node name="lights2" type="Node3D" parent="convert"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="convert" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, 0)
+
+[node name="convert2" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, -1.23951)
+
+[node name="convert3" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, 0)
+
+[node name="convert4" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, -1.23951)
+
+[node name="lights3" type="Node3D" parent="convert"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="convert" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, 0)
+
+[node name="convert2" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, -1.23951)
+
+[node name="convert3" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, 0)
+
+[node name="convert4" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, -1.23951)
+
+[node name="train" parent="." instance=ExtResource("8_a5owa")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.06392, 1.66201, 0)
+
+[node name="train2" parent="." instance=ExtResource("8_a5owa")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.91827, 1.662, -74.6769)
+
+[node name="OmniLight3D10" type="OmniLight3D" parent="train2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7.46214, 0.41991, 1.05335)
+shadow_enabled = true
+omni_attenuation = 0.5
+
+[node name="OmniLight3D11" type="OmniLight3D" parent="train2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.53786, 0.41991, 1.05335)
+shadow_enabled = true
+omni_attenuation = 0.5
+
+[node name="OmniLight3D12" type="OmniLight3D" parent="train2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.537864, 0.41991, 1.05335)
+shadow_enabled = true
+omni_attenuation = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="train2"]
+libraries = {
+&"": SubResource("AnimationLibrary_od2nk")
+}
+autoplay = "move"
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("7_r7xep")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.29082, -0.713764, 0.639629)
+
+[node name="Sence" parent="." instance=ExtResource("7_a5owa")]
+
+[node name="grass" parent="." instance=ExtResource("7_s3ls2")]

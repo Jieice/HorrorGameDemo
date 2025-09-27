@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ctglgmfmodd7i"]
+
+[ext_resource type="Script" uid="uid://c2mhj5yg3goo" path="res://Script/UI/fps.gd" id="1_slq66"]
+
+[node name="FPS" type="CanvasLayer"]
+script = ExtResource("1_slq66")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 101.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 64

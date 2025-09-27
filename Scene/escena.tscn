@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbxgl40nuu4ky"]
+
+[ext_resource type="Script" uid="uid://w3hmuxxf7lxi" path="res://Script/Gameplay/escena.gd" id="1_puwij"]
+[ext_resource type="PackedScene" uid="uid://gfsiq75f56tq" path="res://Assets/3DModels/escena.glb" id="1_wmq4c"]
+
+[node name="escena" type="Node3D"]
+script = ExtResource("1_puwij")
+
+[node name="escena" parent="." instance=ExtResource("1_wmq4c")]

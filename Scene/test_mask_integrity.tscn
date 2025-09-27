@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://test_mask_integrity"]
+
+[ext_resource type="Script" path="res://Script/Gameplay/InteractableObject.gd" id="1_test_object"]
+[ext_resource type="Script" path="res://Script/Gameplay/TestMaskIntegrity.gd" id="2_test_script"]
+
+[sub_resource type="SphereShape3D" id="1"]
+radius = 2.0
+
+[sub_resource type="BoxMesh" id="2"]
+size = Vector3(1, 1, 1)
+
+[node name="TestMaskIntegrity" type="Node3D"]
+script = ExtResource("2_test_script")
+
+[node name="TestObjects" type="Node3D" parent="."]
+
+[node name="TestObject1" type="Node3D" parent="TestObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+script = ExtResource("1_test_object")
+object_name = "测试对象1 - 简单交互"
+interaction_prompt = "按 E 键测试交互"
+inner_monologue = "你感觉到了这个物体的存在..."
+mask_impact_on_interact = -5
+
+[node name="InteractionArea" type="Area3D" parent="TestObjects/TestObject1"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObjects/TestObject1/InteractionArea"]
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObjects/TestObject1"]
+mesh = SubResource("2")
+
+[node name="TestObject2" type="Node3D" parent="TestObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("1_test_object")
+object_name = "测试对象2 - 选择交互"
+interaction_prompt = "按 E 键面临选择"
+has_choices = true
+choice_prompt = "你发现了一个神秘的盒子，里面传出奇怪的声音..."
+choice_options = Array[String](["打开盒子", "离开这里", "仔细观察"])
+choice_descriptions = Array[String](["你感到一阵不安...", "你决定不冒险...", "你仔细观察着盒子..."])
+choice_mask_impacts = Array[int]([-15, 0, -5])
+inner_monologue = "这个盒子让你感到不安..."
+
+[node name="InteractionArea" type="Area3D" parent="TestObjects/TestObject2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObjects/TestObject2/InteractionArea"]
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObjects/TestObject2"]
+mesh = SubResource("2")
+
+[node name="TestObject3" type="Node3D" parent="TestObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+script = ExtResource("1_test_object")
+object_name = "测试对象3 - 任务交互"
+interaction_prompt = "按 E 键接受任务"
+trigger_task_id = "test_task_1"
+task_description = "测试面具完整度系统的任务"
+inner_monologue = "这个任务看起来很重要..."
+
+[node name="InteractionArea" type="Area3D" parent="TestObjects/TestObject3"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObjects/TestObject3/InteractionArea"]
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObjects/TestObject3"]
+mesh = SubResource("2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.866025, 0.5, 0, -0.5, -0.866025, 0, 5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 5)

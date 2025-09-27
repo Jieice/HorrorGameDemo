@@ -1,0 +1,44 @@
+[gd_scene load_steps=11 format=3 uid="uid://p3horrr2h5fu"]
+
+[ext_resource type="PackedScene" uid="uid://5oerfqve4qop" path="res://Scene/Level/Sence1.tscn" id="3_tbv4h"]
+[ext_resource type="PackedScene" uid="uid://ctvbe81cn76qj" path="res://Scene/Player/player.tscn" id="4_dq8dg"]
+[ext_resource type="Script" uid="uid://xohu7oganmje" path="res://Script/Gameplay/SpawnPoint.gd" id="6_jxfsf"]
+[ext_resource type="PackedScene" uid="uid://bi7er3q6wqpg4" path="res://Scene/pause_menu.tscn" id="8_qyimn"]
+[ext_resource type="PackedScene" uid="uid://dhk8mljuyqehd" path="res://Scene/DialogueBox.tscn" id="9_dialogue_box"]
+[ext_resource type="Script" uid="uid://c7ojap7cs4tmt" path="res://Script/World/world.gd" id="9_world"]
+[ext_resource type="Script" uid="uid://b2nqm3k7s6lxh" path="res://Script/Gameplay/PlayerController.gd" id="10_player_controller"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mchih"]
+top_radius = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5pd5d"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mchih"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5pd5d"]
+top_radius = 0.0
+bottom_radius = 0.15
+
+[node name="Node" type="Node"]
+script = ExtResource("9_world")
+
+[node name="Node3D" parent="." instance=ExtResource("3_tbv4h")]
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.893492, 0, -3.68065)
+script = ExtResource("6_jxfsf")
+player_scene = ExtResource("4_dq8dg")
+
+[node name="SpawnMarker" type="MeshInstance3D" parent="SpawnPoint"]
+mesh = SubResource("CylinderMesh_mchih")
+surface_material_override/0 = SubResource("StandardMaterial3D_5pd5d")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpawnPoint/SpawnMarker"]
+transform = Transform3D(0.455, 0, 0, 0, -1.98887e-08, 0.455, 0, -0.455, -1.98887e-08, 4.03139e-08, 0.560606, -0.461137)
+material_override = SubResource("StandardMaterial3D_mchih")
+mesh = SubResource("CylinderMesh_5pd5d")
+
+[node name="PauseMenu" parent="." instance=ExtResource("8_qyimn")]

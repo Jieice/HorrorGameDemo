@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3cq0swmd2ntu"]
+
+[ext_resource type="PackedScene" uid="uid://m0s81gpotgbs" path="res://Assets/3DModels/grass.glb" id="1_j210m"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j210m"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.184314)
+metallic = 1.0
+roughness = 0.3
+
+[node name="grass" instance=ExtResource("1_j210m")]
+
+[node name="平面_008" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_j210m")
+
+[node name="平面_007" parent="." index="1"]
+material_override = SubResource("StandardMaterial3D_j210m")

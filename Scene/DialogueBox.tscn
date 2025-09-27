@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhk8mljuyqehd"]
+
+[ext_resource type="Script" uid="uid://b1ujcelo148i6" path="res://Script/UI/dialogue_box.gd" id="1_1x17h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wg6qw"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_1x17h"]
+
+[node name="DialogueBox" type="CanvasLayer"]
+script = ExtResource("1_1x17h")
+
+[node name="DialogueBox" type="Node" parent="."]
+
+[connection signal="ready" from="." to="." method="_on_dialogue_box_ready"]
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(800, 200)
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wg6qw")
+
+[node name="TextLabel" type="RichTextLabel" parent="Panel"]
+clip_contents = false
+custom_minimum_size = Vector2(800, 200)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 377.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = SubResource("FontVariation_1x17h")
+theme_override_font_sizes/normal_font_size = 64
+autowrap_mode = 2
+vertical_alignment = 1
+
+[node name="NameLabel" type="Label" parent="Panel"]
+custom_minimum_size = Vector2(300, 36)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 1.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ChoicesContainer" type="VBoxContainer" parent="."]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 260.0
+offset_bottom = 260.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ContinueLabel" type="Label" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.738
+anchor_right = 0.5
+anchor_bottom = 0.738
+offset_left = -102.0
+offset_top = -29.04
+offset_right = 102.0
+offset_bottom = 29.96
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "\"\""
+
+[node name="InteractHint" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -113.0
+offset_top = -38.0
+offset_right = 113.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bgmrc103crw7r"]
+
+[ext_resource type="Texture2D" uid="uid://c7qnohbj4oe73" path="res://Assets/Textures/Icons/Black-Icon/Gear.svg" id="1_ixnqr"]
+[ext_resource type="Script" uid="uid://dloujjtwpphor" path="res://Script/UI/corner_settings_button.gd" id="2_yvmkr"]
+
+[node name="CornerSettingsButton" type="CanvasLayer"]
+
+[node name="SettingsButton" type="TextureButton" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("1_ixnqr")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("2_yvmkr")

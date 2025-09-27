@@ -1,0 +1,167 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8yvt5xq2y3gx"]
+
+[ext_resource type="Script" path="res://Script/UI/settings_ui.gd" id="1_yvmkr"]
+
+[node name="SettingsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yvmkr")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "设置"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="音频" type="TabBar" parent="Panel/VBoxContainer/TabContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/TabContainer/音频"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="SoundEffectContainer" type="VBoxContainer" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/SoundEffectContainer"]
+layout_mode = 2
+text = "音效音量"
+
+[node name="SoundEffectSlider" type="HSlider" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/SoundEffectContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="SoundEffectValue" type="Label" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/SoundEffectContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="BGMContainer" type="VBoxContainer" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/BGMContainer"]
+layout_mode = 2
+text = "背景音乐音量"
+
+[node name="BGMSlider" type="HSlider" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/BGMContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="BGMValue" type="Label" parent="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/BGMContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="显示" type="TabBar" parent="Panel/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/TabContainer/显示"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="FPSContainer" type="HBoxContainer" parent="Panel/VBoxContainer/TabContainer/显示/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/TabContainer/显示/VBoxContainer/FPSContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "显示FPS"
+
+[node name="FPSCheckBox" type="CheckBox" parent="Panel/VBoxContainer/TabContainer/显示/VBoxContainer/FPSContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="FullscreenContainer" type="HBoxContainer" parent="Panel/VBoxContainer/TabContainer/显示/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/TabContainer/显示/VBoxContainer/FullscreenContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "全屏模式"
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="Panel/VBoxContainer/TabContainer/显示/VBoxContainer/FullscreenContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ButtonContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="Panel/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "保存"
+
+[node name="CancelButton" type="Button" parent="Panel/VBoxContainer/ButtonContainer"]
+layout_mode = 2
+text = "取消"
+
+[connection signal="value_changed" from="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/SoundEffectContainer/SoundEffectSlider" to="." method="_on_sound_effect_slider_value_changed"]
+[connection signal="value_changed" from="Panel/VBoxContainer/TabContainer/音频/VBoxContainer/BGMContainer/BGMSlider" to="." method="_on_bgm_slider_value_changed"]
+[connection signal="toggled" from="Panel/VBoxContainer/TabContainer/显示/VBoxContainer/FPSContainer/FPSCheckBox" to="." method="_on_fps_check_box_toggled"]
+[connection signal="toggled" from="Panel/VBoxContainer/TabContainer/显示/VBoxContainer/FullscreenContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
+[connection signal="pressed" from="Panel/VBoxContainer/ButtonContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/ButtonContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

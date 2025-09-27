@@ -4,9 +4,12 @@ signal task_updated(task_id, status)
 signal task_completed(task_id)
 signal new_task_added(task_id)
 signal mask_integrity_changed(old_value: int, new_value: int)
+signal mask_emotional_state_changed(old_state: String, new_state: String)
+signal mask_hallucination_triggered(intensity: float, type: String)
 signal inner_monologue_triggered(text: String, priority: String)
 signal choice_presented(options: Array, context: String)
 signal ending_triggered(ending_type: String)
+signal environment_effect_changed(effect_name: String, value: float)
 
 # 面具完整度系统
 class MaskIntegrity:
@@ -14,13 +17,25 @@ class MaskIntegrity:
 	var max_value: int = 100
 	var min_value: int = 0
 	var degradation_rate: float = 0.05  # 每秒自然衰减率
+	var emotional_state: String = "neutral"  # 情绪状态: angry, fearful, confused, numb, cold
+	var hallucination_intensity: float = 0.0  # 幻觉强度
+	var last_change_time: float = 0.0  # 上次变化时间
+	var environment_effects: Dictionary = {
+		"sound_distortion": 0.0,  # 声音失真程度
+		"visual_distortion": 0.0,  # 视觉失真程度
+		"stranger_frequency": 0.0  # 陌生人出现频率
+	}
 	
 	func _init():
 		current_value = 50
+		last_change_time = Time.get_unix_time_from_system()
+		_update_derived_values()
 	
 	func modify_value(amount: int) -> int:
 		var old_value = current_value
 		current_value = clamp(current_value + amount, min_value, max_value)
+		last_change_time = Time.get_unix_time_from_system()
+		_update_derived_values()
 		return old_value
 	
 	func get_percentage() -> float:
@@ -38,6 +53,46 @@ class MaskIntegrity:
 			return "严重破损"
 		else:
 			return "破碎"
+	
+	# 更新派生值（情绪状态、幻觉强度等）
+	func _update_derived_values() -> void:
+		var percentage = get_percentage()
+		
+		# 更新情绪状态
+		if percentage < 0.2:
+			emotional_state = "angry"  # 愤怒
+		elif percentage < 0.4:
+			emotional_state = "fearful"  # 恐惧
+		elif percentage < 0.6:
+			emotional_state = "confused"  # 困惑
+		elif percentage < 0.8:
+			emotional_state = "numb"  # 麻木
+		else:
+			emotional_state = "cold"  # 冷漠
+		
+		# 更新幻觉强度 - 低完整度时更强
+		hallucination_intensity = 1.0 - percentage
+		
+		# 更新环境效果
+		environment_effects["sound_distortion"] = 0.8 - percentage * 0.6  # 低完整度时声音更失真
+		environment_effects["visual_distortion"] = 0.7 - percentage * 0.5  # 低完整度时视觉更失真
+		environment_effects["stranger_frequency"] = percentage * 0.8  # 高完整度时陌生人出现更频繁
+	
+	# 获取当前情绪状态
+	func get_emotional_state() -> String:
+		return emotional_state
+	
+	# 获取幻觉强度
+	func get_hallucination_intensity() -> float:
+		return hallucination_intensity
+	
+	# 获取环境效果
+	func get_environment_effects() -> Dictionary:
+		return environment_effects
+	
+	# 获取面具完整度变化后的时间（秒）
+	func get_time_since_last_change() -> float:
+		return Time.get_unix_time_from_system() - last_change_time
 
 class Task:
 	var id: String
@@ -173,6 +228,12 @@ func get_task_hint(task_id: String):
 		if task.active and not task.completed:
 			return task.hint_text
 	return ""
+	
+# 获取任务标题
+func get_task_title(task_id: String):
+	if tasks.has(task_id):
+		return tasks[task_id].title
+	return "未知任务"
 
 # 获取所有活跃任务的提示文本
 func get_all_active_hints():
@@ -220,6 +281,9 @@ func _mark_task_completed(task_id: String):
 			active_tasks.erase(task_id)
 			completed_tasks.append(task_id)
 			
+			# 播放任务完成音效
+			_play_task_complete_sound()
+			
 			# 更新面具完整度
 			if task.mask_impact != 0:
 				var old_mask_value = mask_integrity.modify_value(task.mask_impact)
@@ -241,6 +305,14 @@ func _mark_task_completed(task_id: String):
 			return true
 	return false
 
+# 播放任务完成音效
+func _play_task_complete_sound():
+	# 直接使用AudioManager播放音效，不再自己处理
+	if AudioManager and AudioManager.has_method("play_sound"):
+		AudioManager.play_sound("task_complete")
+	else:
+		print("警告: 无法加载任务完成音效")
+
 
 
 # 获取所有任务
@@ -261,18 +333,149 @@ func get_mask_integrity_level() -> String:
 	return mask_integrity.get_level()
 
 func modify_mask_integrity(amount: int) -> void:
-	var old_value = mask_integrity.modify_value(amount)
+	var old_value = mask_integrity.current_value
+	var old_emotional_state = mask_integrity.get_emotional_state()
+	
+	# 修改面具完整度值
+	mask_integrity.modify_value(amount)
+	
+	# 发送面具完整度变化信号
 	emit_signal("mask_integrity_changed", old_value, mask_integrity.current_value)
+	
+	# 播放面具完整度变化音效
+	_play_mask_change_sound(amount)
+	
+	# 检查情绪状态是否变化
+	var new_emotional_state = mask_integrity.get_emotional_state()
+	if old_emotional_state != new_emotional_state:
+		emit_signal("mask_emotional_state_changed", old_emotional_state, new_emotional_state)
+		print("情绪状态变化: ", old_emotional_state, " -> ", new_emotional_state)
+		
+		# 根据情绪状态触发不同的内心独白
+		var monologue = _get_emotional_state_monologue(new_emotional_state)
+		if not monologue.is_empty():
+			emit_signal("inner_monologue_triggered", monologue, "emotional_change")
+	
+	# 获取环境效果并发送信号
+	var effects = mask_integrity.get_environment_effects()
+	for effect_name in effects:
+		emit_signal("environment_effect_changed", effect_name, effects[effect_name])
+	
+	# 根据幻觉强度触发幻觉
+	var hallucination_intensity = mask_integrity.get_hallucination_intensity()
+	if hallucination_intensity > 0.6 and randf() < hallucination_intensity * 0.3:
+		var hallucination_type = _get_random_hallucination_type(hallucination_intensity)
+		emit_signal("mask_hallucination_triggered", hallucination_intensity, hallucination_type)
+		print("触发幻觉: ", hallucination_type, " (强度: ", hallucination_intensity, ")")
+	
 	print("面具完整度修改: ", old_value, " -> ", mask_integrity.current_value, 
 		  " (等级: ", mask_integrity.get_level(), ")")
+
+# 播放面具完整度变化音效
+func _play_mask_change_sound(amount: int):
+	# 在编辑器中不播放音效
+	if Engine.is_editor_hint():
+		return
+		
+	# 直接使用AudioManager播放音效，不再自己处理
+	if AudioManager and AudioManager.has_method("play_sound"):
+		AudioManager.play_sound("mask_change")
+		print("警告: 无法加载面具变化音效")
+
+# 根据情绪状态获取对应的内心独白
+func _get_emotional_state_monologue(state: String) -> String:
+	var monologues = {
+		"angry": "为什么他们要这样对我？我无法忍受这种感觉...",
+		"fearful": "我感到害怕...这一切太可怕了...",
+		"confused": "我不明白发生了什么...一切都很混乱...",
+		"numb": "我什么都感觉不到了...这样也许更好...",
+		"cold": "这是正确的选择...忍耐是唯一的出路..."
+	}
+	
+	if monologues.has(state):
+		return monologues[state]
+	return ""
+
+# 获取随机幻觉类型
+func _get_random_hallucination_type(intensity: float) -> String:
+	var types = []
+	
+	# 低完整度（高幻觉强度）时，幻觉更具攻击性
+	if intensity > 0.7:
+		types = ["hostile_whispers", "mocking_laughter", "threatening_shadows"]
+	# 高完整度（低幻觉强度）时，幻觉更具诱导性
+	else:
+		types = ["approving_stranger", "comforting_voice", "guiding_shadow"]
+	
+	return types[randi() % types.size()]
 
 # 面具完整度自然衰减
 func _on_mask_decay() -> void:
 	if player_controller and player_controller.current_state == player_controller.PlayerState.NORMAL:
-		# 只有在正常状态下才自然衰减
-		var old_value = mask_integrity.modify_value(-int(mask_integrity.degradation_rate * 100))
-		if old_value != mask_integrity.current_value:
-			emit_signal("mask_integrity_changed", old_value, mask_integrity.current_value)
+		# 应用自然衰减
+		var decay_amount = -int(mask_integrity.degradation_rate)
+		if decay_amount != 0:
+			modify_mask_integrity(decay_amount)
+		
+		# 定期检查是否需要触发幻觉
+		var hallucination_intensity = mask_integrity.get_hallucination_intensity()
+		if randf() < hallucination_intensity * 0.1:
+			var hallucination_type = _get_random_hallucination_type(hallucination_intensity)
+			emit_signal("mask_hallucination_triggered", hallucination_intensity, hallucination_type)
+		
+		# 应用环境效果
+		_apply_environment_effects()
+
+# 应用环境效果到游戏世界
+func _apply_environment_effects() -> void:
+	# 在编辑器中不应用音频效果
+	if Engine.is_editor_hint():
+		return
+		
+	var effects = mask_integrity.get_environment_effects()
+	
+	# 应用声音失真效果
+	# 确保AudioServer已初始化并可用
+	if not Engine.is_editor_hint() and AudioServer != null:
+		# 安全检查：确保AudioServer已初始化
+		if not is_instance_valid(AudioServer):
+			return
+			
+		# 检查总线是否存在
+		if AudioServer.get_bus_count() <= 0 or AudioServer.get_bus_index("Master") == -1:
+			return
+			
+		var master_bus_idx = AudioServer.get_bus_index("Master")
+		
+		# 检查是否已有失真效果器
+		var has_distortion = false
+		for i in range(AudioServer.get_bus_effect_count(master_bus_idx)):
+			if AudioServer.get_bus_effect(master_bus_idx, i) is AudioEffectDistortion:
+				has_distortion = true
+				var distortion = AudioServer.get_bus_effect(master_bus_idx, i)
+				distortion.drive = effects["sound_distortion"]
+				break
+		
+		# 如果没有失真效果器，添加一个
+		if not has_distortion and effects["sound_distortion"] > 0.1:
+			var distortion = AudioEffectDistortion.new()
+			distortion.drive = effects["sound_distortion"]
+			AudioServer.add_bus_effect(master_bus_idx, distortion)
+	
+	# 发送环境效果变化信号，让其他系统响应
+	for effect_name in effects:
+		emit_signal("environment_effect_changed", effect_name, effects[effect_name])
+	
+	# 根据陌生人出现频率决定是否生成陌生人
+	if randf() < effects["stranger_frequency"] * 0.05:
+		_spawn_stranger()
+
+# 生成陌生人
+func _spawn_stranger() -> void:
+	# 这里只是发送信号，实际生成逻辑由其他系统处理
+	print("陌生人出现...")
+	# 如果有专门的系统处理陌生人生成，可以发送信号
+	# emit_signal("stranger_spawn_requested", player_controller.global_position)
 
 # 触发选择对话框
 func present_task_choice(task_id: String, choice_context: String = "") -> void:

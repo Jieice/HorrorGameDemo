@@ -24,6 +24,7 @@ PauseMenu="*res://Scene/pause_menu.tscn"
 TaskManager="*res://Script/Gameplay/TaskManager.gd"
 UIManager="*res://Script/UI/UIManager.gd"
 CornerSettingsButton="*res://Scene/UI/CornerSettingsButton.tscn"
+AudioManager="*res://Script/Audio/AudioManager.gd"
 
 [display]
 

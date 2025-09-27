@@ -17,6 +17,12 @@ const BGM_BUS_IDX = 2  # 背景音乐总线索引
 
 # 初始化
 func _ready():
+	# 确保处理模式设置正确
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	# 确保鼠标过滤模式正确
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	
 	# 加载设置
 	load_settings()
 	
@@ -25,6 +31,9 @@ func _ready():
 	
 	# 设置初始值
 	apply_settings()
+	
+	# 确保所有按钮可点击
+	_connect_signals()
 
 # 加载设置
 func load_settings():
@@ -58,8 +67,18 @@ func save_settings():
 	config.set_value("display", "show_fps", show_fps)
 	config.set_value("display", "fullscreen", fullscreen)
 	
+	# 确保目录存在
+	var dir = DirAccess.open("user://")
+	if dir == null:
+		print("错误：无法访问用户目录")
+		return
+	
 	# 保存到文件
-	config.save(CONFIG_FILE_PATH)
+	var err = config.save(CONFIG_FILE_PATH)
+	if err != OK:
+		print("错误：无法保存设置文件，错误代码：", err)
+	else:
+		print("设置已成功保存到：", CONFIG_FILE_PATH)
 
 # 应用设置
 func apply_settings():
@@ -120,37 +139,81 @@ func _on_fullscreen_check_box_toggled(button_pressed):
 
 # 保存按钮点击
 func _on_save_button_pressed():
+	release_focus()
 	# 保存设置并应用
 	save_settings()
 	apply_settings()
-	
-	# 只在游戏场景中设置鼠标为捕捉模式，主菜单中保持可见
-	if get_tree().current_scene.name != "MainMenu":
-		# 检查是否存在对话框，如果存在则恢复对话框状态
-		var dialogue_box = get_tree().get_first_node_in_group("DialogueBox")
-		if dialogue_box and dialogue_box.visible:
-			# 如果对话框正在显示，保持暂停状态并保持对话框可见
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
-			# 否则恢复正常游戏状态
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			# 恢复游戏运行状态
-			get_tree().paused = false
-	else:
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	
-	# 立即隐藏界面并移除
+	# 确保不会显示ESC菜单
+	get_viewport().set_input_as_handled()
+	# 隐藏并释放
 	hide()
-	queue_free()
+	call_deferred("queue_free")
+	# 通知父节点我们已关闭
+	if get_parent().has_method("_on_settings_closed"):
+		get_parent()._on_settings_closed()
+	else:
+		# 兼容旧代码，尝试显示暂停菜单
+		var pause_menu = get_tree().root.get_node_or_null("PauseMenu")
+		if pause_menu:
+			pause_menu.show()
 
 # 取消按钮点击
 func _on_cancel_button_pressed():
-	# 确保焦点不在其他控件上
 	release_focus()
 	# 重新加载设置并更新UI
 	load_settings()
 	update_ui_from_settings()
-	# 立即隐藏界面
+	# 确保不会显示ESC菜单
+	get_viewport().set_input_as_handled()
+	# 隐藏并释放
 	hide()
-	# 延迟一帧后从场景树中移除自身
 	call_deferred("queue_free")
+	# 通知父节点我们已关闭
+	if get_parent().has_method("_on_settings_closed"):
+		get_parent()._on_settings_closed()
+	else:
+		# 兼容旧代码，尝试显示暂停菜单
+		var pause_menu = get_tree().root.get_node_or_null("PauseMenu")
+		if pause_menu:
+			pause_menu.show()
+
+# 确保所有按钮信号正确连接
+func _connect_signals():
+	# 连接滑块信号
+	var sound_slider = get_node_or_null("%SoundEffectSlider")
+	if sound_slider:
+		if not sound_slider.value_changed.is_connected(_on_sound_effect_slider_value_changed):
+			sound_slider.value_changed.connect(_on_sound_effect_slider_value_changed)
+	
+	var bgm_slider = get_node_or_null("%BGMSlider")
+	if bgm_slider:
+		if not bgm_slider.value_changed.is_connected(_on_bgm_slider_value_changed):
+			bgm_slider.value_changed.connect(_on_bgm_slider_value_changed)
+	
+	# 连接复选框信号
+	var fps_checkbox = get_node_or_null("%FPSCheckBox")
+	if fps_checkbox:
+		if not fps_checkbox.toggled.is_connected(_on_fps_check_box_toggled):
+			fps_checkbox.toggled.connect(_on_fps_check_box_toggled)
+	
+	var fullscreen_checkbox = get_node_or_null("%FullscreenCheckBox")
+	if fullscreen_checkbox:
+		if not fullscreen_checkbox.toggled.is_connected(_on_fullscreen_check_box_toggled):
+			fullscreen_checkbox.toggled.connect(_on_fullscreen_check_box_toggled)
+	
+	# 连接按钮信号 - 使用直接路径而不是%
+	var save_button = get_node_or_null("VBoxContainer/Buttons/SaveButton")
+	if not save_button:
+		save_button = get_node_or_null("%SaveButton")
+	if save_button:
+		save_button.mouse_filter = Control.MOUSE_FILTER_STOP
+		if not save_button.pressed.is_connected(_on_save_button_pressed):
+			save_button.pressed.connect(_on_save_button_pressed)
+	
+	var cancel_button = get_node_or_null("VBoxContainer/Buttons/CancelButton")
+	if not cancel_button:
+		cancel_button = get_node_or_null("%CancelButton")
+	if cancel_button:
+		cancel_button.mouse_filter = Control.MOUSE_FILTER_STOP
+		if not cancel_button.pressed.is_connected(_on_cancel_button_pressed):
+			cancel_button.pressed.connect(_on_cancel_button_pressed)

@@ -16,6 +16,7 @@ var choices: Array = []  # 选择项
 var choice_callbacks: Dictionary = {}  # 选择对应的回调函数
 signal dialogue_closed
 signal option_selected(index: int)  # 选择项被选中的信号
+signal handle_space  # 添加空格键处理信号
 
 # 预留的选择处理函数，供外部覆盖
 func on_option_selected(index: int) -> void:
@@ -166,7 +167,7 @@ func _hide_hint() -> void:
 	
 signal dialogue_completed
 
-func _type_text(text: String) -> void:
+func _type_text(text: String, emotion: String = "normal") -> void:
 	print("=== _type_text开始执行 ===")
 	print("要显示的文本: ", text)
 	print("text_label是否存在: ", text_label != null)
@@ -175,12 +176,21 @@ func _type_text(text: String) -> void:
 	text_label.text = ""
 	continue_label.visible = false
 	
+	# 根据情绪设置文本样式
+	_apply_emotion_style(emotion)
+	
 	# 使用UIManager的打字机效果
 	if ui_manager and ui_manager.has_method("typewriter"):
 		print("使用UIManager的打字机效果")
 		text_label.text = text
-		ui_manager.typewriter(text_label, text, text_speed)
-		await ui_manager._typing_timer.tree_exited
+
+		# 安全等待打字机效果完成
+		if ui_manager._typing_timer and is_instance_valid(ui_manager._typing_timer):
+			await ui_manager._typing_timer.tree_exited
+		else:
+			# 如果_typing_timer不可用，使用定时器代替
+			await get_tree().create_timer(text.length() * text_speed).timeout
+			
 		typing = false
 		continue_label.visible = true
 		print("打字机效果完成，显示继续标签")
@@ -195,13 +205,38 @@ func _type_text(text: String) -> void:
 		typing = false
 		continue_label.visible = true
 		print("打字机效果完成，显示继续标签")
-
-func _unhandled_input(event: InputEvent) -> void:
-	# ESC键已由PlayerController统一处理，这里不再处理
-	pass
+		
+# 根据情绪设置文本样式
+func _apply_emotion_style(emotion: String) -> void:
+	var base_font_size = 16
+	
+	# 重置样式
+	text_label.add_theme_font_size_override("normal_font_size", base_font_size)
+	text_label.add_theme_color_override("default_color", Color(1, 1, 1))
+	
+	# 根据情绪应用不同样式
+	match emotion:
+		"angry":
+			text_label.add_theme_font_size_override("normal_font_size", base_font_size + 4)
+			text_label.add_theme_color_override("default_color", Color(0.9, 0.3, 0.3))
+		"sad":
+			text_label.add_theme_font_size_override("normal_font_size", base_font_size - 2)
+			text_label.add_theme_color_override("default_color", Color(0.5, 0.7, 0.9))
+		"happy":
+			text_label.add_theme_color_override("default_color", Color(1.0, 0.9, 0.4))
+		"scared":
+			# 添加轻微抖动效果
+			var tween = create_tween().set_loops()
+			tween.tween_property(text_label, "position:x", text_label.position.x + 2, 0.1)
+			tween.tween_property(text_label, "position:x", text_label.position.x, 0.1)
+			text_label.add_theme_color_override("default_color", Color(0.8, 0.8, 0.9))
+		"confused":
+			text_label.add_theme_color_override("default_color", Color(0.7, 0.5, 0.9))
+		_:  # 默认样式
+			pass
 
 # 处理空格键输入，用于继续对话或跳过打字动画
-func handle_space() -> void:
+func process_space_key() -> void:
 	print("=== 对话框处理空格键输入 ===")
 	print("当前行: ", current_line, ", 总行数: ", lines.size(), ", 是否正在打字: ", typing)
 	print("对话框可见: ", visible, ", 选择容器可见: ", choices_container.visible if choices_container else "N/A")

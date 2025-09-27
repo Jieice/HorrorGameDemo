@@ -21,12 +21,32 @@ func _ready():
 	# 初始隐藏UI
 	hide_hints()
 	
-	# 调整任务提示位置，避免与FPS重叠
+	# 调整任务提示位置，避免与面具图标冲突
 	if hint_container:
-		# 设置位置为左上角，但在FPS下方（假设FPS高度约30像素）
-		hint_container.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-		hint_container.position = Vector2(10, 50)  # FPS下方40像素处
+		# 设置位置为右上角，避免与左上角的面具图标冲突
+		hint_container.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+		hint_container.position = Vector2(-310, 10)  # 右上角，留出10像素边距
 		hint_container.size = Vector2(300, 200)  # 设置合适的大小
+		
+		# 添加样式：半透明黑色背景和边框
+		var panel_style = StyleBoxFlat.new()
+		panel_style.bg_color = Color(0.1, 0.1, 0.1, 0.7)  # 半透明黑色背景
+		panel_style.border_width_left = 2
+		panel_style.border_width_top = 2
+		panel_style.border_width_right = 2
+		panel_style.border_width_bottom = 2
+		panel_style.border_color = Color(0.5, 0.5, 0.5, 0.8)  # 灰色边框
+		panel_style.corner_radius_top_left = 5
+		panel_style.corner_radius_top_right = 5
+		panel_style.corner_radius_bottom_left = 5
+		panel_style.corner_radius_bottom_right = 5
+		
+		# 应用样式
+		hint_container.add_theme_stylebox_override("panel", panel_style)
+		
+		# 设置标题样式
+		if hint_label:
+			hint_label.add_theme_color_override("font_color", Color(0.9, 0.7, 0.2))  # 金黄色标题
 
 func _process(delta):
 	# 检查是否应该显示提示（例如，当玩家按下某个键时）
@@ -98,9 +118,35 @@ func update_hint_display():
 # 当任务更新时调用
 func _on_task_updated(task_id: String, status: String):
 	if task_manager:
+		# 如果任务完成，显示完成动画
+		if status == "completed":
+			show_task_completion_animation(task_id)
+			# 任务完成音效已在TaskManager中播放，这里不需要重复播放
+		
+		# 更新任务列表
 		current_hints = task_manager.get_all_active_hints()
 		if is_visible:
 			update_hint_display()
+
+# 显示任务完成动画
+func show_task_completion_animation(task_id: String):
+	# 创建一个临时标签用于动画
+	var completion_label = Label.new()
+	completion_label.text = "任务完成: " + task_manager.get_task_title(task_id)
+	completion_label.add_theme_color_override("font_color", Color(0.2, 0.9, 0.2))  # 绿色
+	completion_label.add_theme_font_size_override("font_size", 24)
+	
+	# 添加到UI
+	add_child(completion_label)
+	
+	# 设置初始位置（屏幕中央）
+	var viewport_size = get_viewport().get_visible_rect().size
+	completion_label.position = Vector2(viewport_size.x / 2 - completion_label.size.x / 2, viewport_size.y / 2)
+	
+	# 创建动画
+	var tween = create_tween()
+	tween.tween_property(completion_label, "modulate:a", 0.0, 2.0).from(1.0)
+	tween.tween_callback(completion_label.queue_free)
 
 # 当新任务添加时调用
 func _on_new_task_added(task_id: String):

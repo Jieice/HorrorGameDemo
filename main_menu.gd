@@ -14,7 +14,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		# 如果设置界面正在显示，则隐藏它
-		if settings_ui.visible:
+		if settings_ui and settings_ui.visible:
 			settings_ui.hide()
 
 func _ready() -> void:
@@ -44,7 +44,16 @@ func _on_start_pressed() -> void:
 
 func _on_settings_pressed() -> void:
 	# 显示设置界面
+	if not settings_ui or not is_instance_valid(settings_ui):
+		settings_ui = SETTINGS_UI_SCENE.instantiate()
+		add_child(settings_ui)
+		settings_ui.z_index = 100
+	
 	settings_ui.show()
+	
+func _on_settings_closed() -> void:
+	# 设置UI关闭后的回调
+	pass
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()

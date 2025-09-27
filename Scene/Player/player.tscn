@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctvbe81cn76qj"]
+[gd_scene load_steps=3 format=3 uid="uid://bjwfk3xmpt8j5"]
 
-[ext_resource type="Script" uid="uid://l75rb275io5y" path="res://Script/Player/player.gd" id="1_3x5gi"]
+[ext_resource type="Script" uid="uid://drwowmq71vp2f" path="res://Script/Player/player.gd" id="1_3x5gi"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t5ctn"]
 
@@ -20,8 +20,8 @@ current = true
 
 [node name="RayCast3D" type="RayCast3D" parent="Pivot/Camera3D"]
 target_position = Vector3(0, 0, -2)
-collide_with_areas = true
 collision_mask = 3
+collide_with_areas = true
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
 [node name="InteractHint" type="Label" parent="."]

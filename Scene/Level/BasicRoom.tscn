@@ -1,0 +1,196 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8j8pu5yvxnqw"]
+
+[ext_resource type="PackedScene" uid="uid://bxfnqwt1uxs5" path="res://Scene/Player/player.tscn" id="1_lfnqr"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ixvlj"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_yvdwl"]
+sky_material = SubResource("ProceduralSkyMaterial_ixvlj")
+
+[sub_resource type="Environment" id="Environment_aqnxl"]
+background_mode = 2
+sky = SubResource("Sky_yvdwl")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yvdwl"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_yvdwl"]
+size = Vector3(20, 0.5, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yvdwl"]
+albedo_color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="BasicRoom" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_aqnxl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, -0.75, 0.433013, 0, 5, 0)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_floor")
+
+[node name="Furniture" type="Node3D" parent="."]
+
+[node name="Table" type="StaticBody3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Furniture/Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("BoxShape3D_table")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Furniture/Table"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BoxMesh_table")
+surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+
+[node name="Chair" type="StaticBody3D" parent="Furniture"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2, 0, -2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Furniture/Chair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_chair")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Furniture/Chair"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_chair")
+surface_material_override/0 = SubResource("StandardMaterial3D_wood")
+
+[node name="Bed" type="StaticBody3D" parent="Furniture"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Furniture/Bed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+shape = SubResource("BoxShape3D_bed")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Furniture/Bed"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_bed")
+surface_material_override/0 = SubResource("StandardMaterial3D_bed")SubResource("StandardMaterial3D_yvdwl")
+
+[node name="WallNorth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -10)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallNorth"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_yvdwl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallNorth"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_yvdwl")
+surface_material_override/0 = SubResource("StandardMaterial3D_yvdwl")
+
+[node name="WallSouth" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 10)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallSouth"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_yvdwl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallSouth"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_yvdwl")
+surface_material_override/0 = SubResource("StandardMaterial3D_yvdwl")
+
+[node name="WallEast" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 10, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallEast"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_yvdwl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallEast"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_yvdwl")
+surface_material_override/0 = SubResource("StandardMaterial3D_yvdwl")
+
+[node name="WallWest" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallWest"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_yvdwl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WallWest"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("BoxMesh_yvdwl")
+surface_material_override/0 = SubResource("StandardMaterial3D_yvdwl")
+
+[node name="Player" parent="." instance=ExtResource("1_lfnqr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="SpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8)
+
+[node name="InteractionPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="MaskIntegrityTest" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -5)
+script = ExtResource("res://Script/Gameplay/MaskIntegrityTest.gd")
+
+[node name="UI" type="Control" parent="MaskIntegrityTest"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MaskIntegrityTest/UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="MaskIntegrityTest/UI/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "面具完整度测试"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="MaskIntegrityTest/UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="MaskIntegrityTest/UI/VBoxContainer"]
+layout_mode = 2
+text = "面具完整度: 50 (50%)
+等级: 中度破损
+情绪状态: confused
+幻觉强度: 0.50"
+
+[node name="HSeparator2" type="HSeparator" parent="MaskIntegrityTest/UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="IncreaseButton" type="Button" parent="MaskIntegrityTest/UI/VBoxContainer"]
+layout_mode = 2
+text = "增加面具完整度 (+10)"
+
+[node name="DecreaseButton" type="Button" parent="MaskIntegrityTest/UI/VBoxContainer"]
+layout_mode = 2
+text = "减少面具完整度 (-10)"
+
+[node name="ResetButton" type="Button" parent="MaskIntegrityTest/UI/VBoxContainer"]
+layout_mode = 2
+text = "重置到初始值 (50)"

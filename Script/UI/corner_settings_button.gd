@@ -13,16 +13,46 @@ func _ready():
 	else:
 		# 如果不是主菜单，则显示设置按钮
 		show()
+		
+		# 连接按钮信号
+		pressed.connect(_on_settings_button_pressed)
 	
-	# 预加载设置UI
-	settings_ui = SETTINGS_UI_SCENE.instantiate()
-	get_tree().root.add_child(settings_ui)
-	settings_ui.z_index = 100
-	settings_ui.hide()
-	
-	# 连接按钮信号
-	pressed.connect(_on_settings_button_pressed)
+	# 预加载设置UI - 移到按钮点击时再创建，避免过早创建导致问题
 
 # 设置按钮点击事件
 func _on_settings_button_pressed():
+	print("设置按钮被点击")
+	
+	# 检查是否已存在设置UI实例
+	var existing_settings = get_tree().root.get_node_or_null("SettingsUI")
+	if existing_settings:
+		# 如果已存在，则先移除旧实例
+		existing_settings.queue_free()
+	
+	# 创建新的设置UI实例
+	settings_ui = SETTINGS_UI_SCENE.instantiate()
+	settings_ui.name = "SettingsUI" # 设置唯一名称以便检查
+	settings_ui.z_index = 100
+	
+	# 设置处理模式为ALWAYS，确保在游戏暂停时仍能交互
+	settings_ui.process_mode = Node.PROCESS_MODE_ALWAYS
+	# 设置鼠标过滤模式，确保能接收所有输入
+	settings_ui.mouse_filter = Control.MOUSE_FILTER_STOP
+	
+	# 添加到场景树
+	get_tree().root.add_child(settings_ui)
+	
+	# 确保所有按钮信号正确连接
+	if settings_ui.has_method("_connect_signals"):
+		settings_ui.call("_connect_signals")
+	
+	# 显示设置UI
 	settings_ui.show()
+	
+	# 确保鼠标可见
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	# 暂停游戏（如果在游戏场景中）
+	var current_scene = get_tree().current_scene
+	if current_scene.name != "main_menu" and current_scene.scene_file_path != "res://Scene/main_menu.tscn":
+		get_tree().paused = true

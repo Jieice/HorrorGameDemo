@@ -1,0 +1,179 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8qvnpyukq5ov"]
+
+[ext_resource type="Script" path="res://Script/UI/AudioSettingsUI.gd" id="1_yjk2p"]
+
+[node name="AudioSettingsUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yjk2p")
+
+[node name="Panel" type="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -200.0
+offset_right = 250.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label"]
+layout_mode = 2
+text = "音效设置"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator"]
+layout_mode = 2
+
+[node name="MasterVolume" type="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "主音量"
+
+[node name="HSlider" type="HSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="MusicVolume" type="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "音乐音量"
+
+[node name="HSlider" type="HSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.7
+
+[node name="SFXVolume" type="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "音效音量"
+
+[node name="HSlider" type="HSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.8
+
+[node name="AmbientVolume" type="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "环境音量"
+
+[node name="HSlider" type="HSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.6
+
+[node name="VoiceVolume" type="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "语音音量"
+
+[node name="HSlider" type="HSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="UIVolume" type="HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "界面音效"
+
+[node name="HSlider" type="HSlider"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="HSeparator2" type="HSeparator"]
+layout_mode = 2
+
+[node name="MuteButton" type="CheckButton"]
+layout_mode = 2
+text = "静音"
+
+[node name="HSeparator3" type="HSeparator"]
+layout_mode = 2
+
+[node name="TestSounds" type="HBoxContainer"]
+layout_mode = 2
+
+[node name="TestHeartbeat" type="Button"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "测试心跳声"
+
+[node name="TestFootstep" type="Button"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "测试脚步声"
+
+[node name="TestDoor" type="Button"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "测试门声"
+
+[node name="CloseButton" type="Button"]
+layout_mode = 2
+text = "关闭"
+
+[connection signal="pressed" from="VBoxContainer/TestSounds/TestHeartbeat" to="." method="_on_test_heartbeat_pressed"]
+[connection signal="pressed" from="VBoxContainer/TestSounds/TestFootstep" to="." method="_on_test_footstep_pressed"]
+[connection signal="pressed" from="VBoxContainer/TestSounds/TestDoor" to="." method="_on_test_door_pressed"]
+[connection signal="pressed" from="VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]

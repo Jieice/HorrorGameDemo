@@ -65,21 +65,6 @@ func _physics_process(_delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
-	if ray.is_colliding():  # 如果射线碰到物体
-		var obj = ray.get_collider()  # 获取碰撞物体
-		if obj.is_in_group("interactable"):  # 检查物体是否在交互分组
-			interact_hint.text = "按 E 互动"
-			interact_hint.visible = true  # 显示提示框
-		else:
-			interact_hint.visible = false
-	else:
-		interact_hint.visible = false
+	# 交互提示逻辑已移至PlayerController.gd
 
-	# 基础交互逻辑
-	if Input.is_action_just_pressed("interact") and ray.is_colliding():
-		var obj = ray.get_collider()
-		if obj.is_in_group("interactable"):
-			# 直接处理交互，不依赖PlayerController
-			print("玩家交互: ", obj.name)
-				
-# 玩家脚本现在独立运行，PlayerController将在游戏场景中处理状态管理
+	# 玩家脚本现在独立运行，PlayerController将在游戏场景中处理状态管理和交互逻辑

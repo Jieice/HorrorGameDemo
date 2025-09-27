@@ -4,11 +4,11 @@ signal state_changed(old_state, new_state)
 signal mouse_mode_changed(old_mode, new_mode)
 
 enum PlayerState {
-	NORMAL = 0,      # 正常游戏状态
-	DIALOGUE = 1,    # 对话状态
-	PAUSED = 2,      # 暂停状态
-	MENU = 3,        # 在菜单中
-	CUTSCENE = 4     # 过场动画状态
+	NORMAL = 0, # 正常游戏状态
+	DIALOGUE = 1, # 对话状态
+	PAUSED = 2, # 暂停状态
+	MENU = 3, # 在菜单中
+	CUTSCENE = 4 # 过场动画状态
 }
 
 var current_state: PlayerState = PlayerState.NORMAL
@@ -35,19 +35,42 @@ func _ready() -> void:
 			return
 	
 	# 初始化节点引用
-	# 延迟获取玩家节点，确保玩家已经初始化
-	await get_tree().process_frame
-	await get_tree().process_frame  # 等待两帧确保所有节点都初始化完成
-	
-	# 额外等待，确保SpawnPoint完成玩家生成
-	var max_retries = 10
-	var retry_count = 0
-	while retry_count < max_retries and not player_node:
-		await get_tree().process_frame
-		retry_count += 1
-	
-	# 尝试多种方式找到玩家节点
+	# 使用更高效的方式获取玩家节点
+	call_deferred("_initialize_player_node")
+	# 初始化射线检测（延迟一帧，容错玩家节点未就绪）
+	call_deferred("_initialize_raycast")
+
+func _initialize_player_node() -> void:
+	# 通过组查找玩家节点
 	player_node = get_tree().get_first_node_in_group("Player")
+	if not player_node:
+		# 尝试其他方法获取玩家节点
+		player_node = get_node_or_null("/root/Player")
+		if not player_node:
+			# 尝试在当前场景中查找
+			var current_scene = get_tree().get_current_scene()
+			if current_scene:
+				player_node = current_scene.get_node_or_null("Player")
+				if not player_node:
+					# 尝试查找所有可能的路径
+					var possible_paths = [
+						"Player",
+						"World/Player",
+						"GameWorld/Player",
+						"Level/Player",
+						"YSort/Player"
+					]
+					for path in possible_paths:
+						player_node = current_scene.get_node_or_null(path)
+						if player_node:
+							print("在路径找到玩家节点: ", path)
+							break
+			
+			if not player_node:
+				print("错误：无法获取玩家节点")
+				return
+	
+	print("成功初始化玩家节点: ", player_node.name)
 	if player_node:
 		print("通过Player组找到玩家节点: ", player_node.get_path())
 	else:
@@ -148,9 +171,9 @@ func _handle_normal_input(event: InputEvent) -> void:
 		pause_game()
 
 func _handle_dialogue_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):  # 使用空格键或回车键
+	if event.is_action_pressed("ui_accept"): # 使用空格键或回车键
 		_on_dialogue_space_pressed()
-	elif event.is_action_pressed("ui_cancel"):  # 使用ESC键
+	elif event.is_action_pressed("ui_cancel"): # 使用ESC键
 		_on_dialogue_space_pressed() # 跳过对话也使用相同处理
 
 func _handle_paused_input(event: InputEvent) -> void:
@@ -169,7 +192,7 @@ func handle_interact() -> void:
 	# 交互逻辑
 	print("交互！")
 	
-	# 使用射线检测获取玩家面前的NPC
+	# 使用射线检测获取玩家前面的NPC
 	if not player_node:
 		print("错误：无法获取玩家节点")
 		# 尝试重新获取玩家节点
@@ -203,18 +226,44 @@ func handle_interact() -> void:
 				player_node.interact()
 		return
 	
-	var raycast = player_camera.get_node_or_null("RayCast3D")
-	if not raycast:
-		# 尝试在玩家节点上查找RayCast3D
-		raycast = player_node.find_child("RayCast3D", true, false)
+	# 直接使用player.gd中的射线检测
+	if not player_node:
+		print("错误：玩家节点未初始化")
+		return
+		
+	# 尝试多种可能的射线检测器路径
+	var raycast = null
+	var possible_paths = [
+		"Head/Camera3D/RayCast3D",
+		"Camera3D/RayCast3D",
+		"Pivot/Camera3D/RayCast3D",
+		"RayCast3D"
+	]
+	
+	for path in possible_paths:
+		raycast = player_node.get_node_or_null(path)
+		if raycast:
+			print("在路径找到射线检测器: ", path)
+			break
 		
 	if not raycast:
-		print("错误：无法获取射线检测器")
+		print("错误：无法获取玩家射线检测器")
 		return
 	
 	# 启用射线检测
 	raycast.enabled = true
 	raycast.force_raycast_update()
+	
+	# 获取交互提示UI - 尝试多种可能的路径
+	var interaction_hint = get_node_or_null("/root/GameWorld/UI/InteractionHint")
+	if not interaction_hint:
+		interaction_hint = get_node_or_null("/root/world/UI/InteractionHint")
+	if not interaction_hint:
+		interaction_hint = get_node_or_null("../../UI/InteractionHint")
+	if not interaction_hint:
+		interaction_hint = get_node_or_null("/root/UI/InteractionHint")
+	if not interaction_hint:
+		interaction_hint = get_node_or_null("/root/InteractionHint")
 	
 	print("射线检测状态 - 是否碰撞: ", raycast.is_colliding())
 	if raycast.is_colliding():
@@ -222,41 +271,168 @@ func handle_interact() -> void:
 		print("碰撞到的对象: ", collider)
 		print("碰撞对象类型: ", collider.get_class() if collider else "无")
 		
+		# 显示交互提示
+		if interaction_hint and (collider.is_in_group("interactable") or collider.is_in_group("NPC") or collider.has_method("interact")):
+			interaction_hint.visible = true
+			interaction_hint.text = "按 E 互动"
+			print("显示交互提示: 按 E 互动")
+		
 		if collider and collider.has_method("interact"):
 			print("找到可交互对象，调用interact方法")
 			collider.interact()
-		else:
-			print("碰撞对象没有interact方法，尝试直接开始对话")
-		# 简化：如果是NPC组的成员，直接开始对话
+		
+		# 如果是NPC组的成员，直接开始对话
 		if collider and collider.is_in_group("NPC"):
 			start_dialogue(collider)
 		else:
 			print("碰撞对象不是NPC，无法对话")
 	else:
+		# 隐藏交互提示
+		if interaction_hint:
+			interaction_hint.visible = false
 		print("射线没有检测到任何对象")
-		# 如果没有检测到对象，尝试查找附近的NPC
-		var nearby_npcs = get_tree().get_nodes_in_group("NPC")
-		print("附近NPC数量: ", nearby_npcs.size())
+
+# 这些函数已在文件前面定义，此处删除重复定义
+
+# 这些函数已在文件前面定义，此处删除重复定义
+# 请参考文件前面的函数定义（298-526行）
+
+# 射线检测相关
+var raycast: RayCast3D
+var raycast_enabled: bool = true
+
+func _initialize_raycast() -> void:
+	if not player_node:
+		print("警告：_initialize_raycast时player_node为空")
+		return
+	
+	# 优先使用玩家场景中已有的RayCast3D
+	raycast = _get_existing_raycast()
+	if raycast:
+		raycast.enabled = true
+		raycast.collide_with_areas = true
+		raycast.collide_with_bodies = true
+		print("射线检测采用现有节点: ", raycast.get_path())
+		return
+	
+	# 查找玩家相机（多种可能路径）
+	var cam = player_node.get_node_or_null("Camera3D")
+	if not cam:
+		cam = player_node.get_node_or_null("Pivot/Camera3D")
+	if not cam:
+		var cams = player_node.find_children("*", "Camera3D", true, false)
+		if cams.size() > 0:
+			cam = cams[0]
+	
+	if cam:
+		# 创建新的RayCast3D并挂载到相机
+		raycast = RayCast3D.new()
+		raycast.enabled = true
+		raycast.collide_with_bodies = true
+		raycast.collide_with_areas = true
+		# 增加检测距离，避免过近导致无法命中
+		raycast.target_position = Vector3(0, 0, -4)
+		raycast.collision_mask = 0xFFFFFFFF # 兼容所有层，避免因层不一致而检测失败
+		cam.add_child(raycast)
+		print("射线检测已初始化并挂载到: ", cam.get_path())
+	else:
+		print("警告：无法初始化射线检测，找不到Camera3D节点")
+
+func _get_existing_raycast() -> RayCast3D:
+	if not player_node:
+		return null
+	var possible_paths = [
+		"Head/Camera3D/RayCast3D",
+		"Camera3D/RayCast3D",
+		"Pivot/Camera3D/RayCast3D",
+		"RayCast3D"
+	]
+	for path in possible_paths:
+		var rc = player_node.get_node_or_null(path)
+		if rc:
+			return rc
+	return null
+
+func _process(delta):
+	# 只在NORMAL状态下处理交互检测
+	if current_state != PlayerState.NORMAL:
+		# 非NORMAL状态下隐藏交互提示
+		var hint = _find_interaction_hint()
+		if hint:
+			hint.visible = false
+		return
 		
-		if nearby_npcs.size() > 0:
-			# 找到最近的NPC
-			var closest_npc = null
-			var closest_distance = INF
-			
-			for npc in nearby_npcs:
-				var distance = player_node.global_position.distance_to(npc.global_position)
-				print("NPC: ", npc.name, " 距离: ", distance)
-				if distance < closest_distance and distance < 3.0:  # 3米范围内
-					closest_distance = distance
-					closest_npc = npc
-			
-			if closest_npc:
-				print("找到最近的NPC: ", closest_npc.name, " 距离: ", closest_distance)
-				closest_npc.interact()
-			else:
-				print("没有NPC在交互范围内")
+	# 若raycast尚未就位，尝试获取或初始化
+	if not raycast:
+		raycast = _get_existing_raycast()
+		if not raycast:
+			_initialize_raycast()
 		else:
-			print("场景中没有NPC")
+			raycast.enabled = true
+			
+	if not raycast:
+		return  # 如果射线仍然不可用，直接返回
+
+	# 确保射线启用
+	raycast.enabled = true
+	
+	# 强制更新一次，避免首次不检测
+	raycast.force_raycast_update()
+	
+	# 获取交互提示UI
+	var hint = _find_interaction_hint()
+	if not hint:
+		return  # 如果找不到提示UI，直接返回
+		
+	# 默认隐藏提示
+	var should_show_hint = false
+	
+	if raycast.is_colliding():
+		var collider = raycast.get_collider()
+		
+		# 检查碰撞对象是否可交互
+		if collider:
+			# 直接检查碰撞对象
+			if collider.is_in_group("interactable") or collider.has_method("interact"):
+				should_show_hint = true
+			# 检查父对象（处理碰撞体是子节点的情况）
+			elif collider.get_parent() and (collider.get_parent().is_in_group("interactable") or collider.get_parent().has_method("interact")):
+				should_show_hint = true
+	
+	# 根据检测结果设置提示可见性
+	hint.visible = should_show_hint
+	if should_show_hint:
+		hint.text = "按 E 互动"
+
+# 查找交互提示UI节点
+func _find_interaction_hint():
+	var hint = null
+	
+	# 尝试多种可能的路径
+	var possible_paths = [
+		"/root/world/UI/InteractionHint",
+		"/root/GameWorld/UI/InteractionHint",
+		"UI/InteractionHint",
+		"/root/UIManager/InteractionHint",
+		"/root/InteractionHint"
+	]
+	
+	# 尝试从路径获取
+	for path in possible_paths:
+		hint = get_node_or_null(path)
+		if hint:
+			return hint
+	
+	# 尝试从当前场景查找
+	var world = get_tree().current_scene
+	if world:
+		hint = world.get_node_or_null("InteractionHint")
+		if not hint:
+			hint = world.get_node_or_null("UI/InteractionHint")
+		if not hint:
+			hint = world.find_child("InteractionHint", true, false)
+	
+	return hint
 
 func _set_state(new_state: PlayerState) -> void:
 	var old_state = current_state
@@ -402,15 +578,18 @@ func start_dialogue(npc_node: Node = null) -> void:
 	# 调用对话框的start_dialogue方法
 	dialogue_box.start_dialogue(dialogue_lines, npc_name)
 	
-	# 连接NPC的信号到对话框
+	# 连接NPC的信号到对话框（避免重复连接）
 	if dialogue_box.has_signal("dialogue_completed") and npc_node.has_method("_on_dialogue_completed"):
-		dialogue_box.connect("dialogue_completed", Callable(npc_node, "_on_dialogue_completed"))
+		if not dialogue_box.is_connected("dialogue_completed", Callable(npc_node, "_on_dialogue_completed")):
+			dialogue_box.connect("dialogue_completed", Callable(npc_node, "_on_dialogue_completed"))
 	
 	if dialogue_box.has_signal("dialogue_closed") and npc_node.has_method("_on_dialogue_closed"):
-		dialogue_box.connect("dialogue_closed", Callable(npc_node, "_on_dialogue_closed"))
+		if not dialogue_box.is_connected("dialogue_closed", Callable(npc_node, "_on_dialogue_closed")):
+			dialogue_box.connect("dialogue_closed", Callable(npc_node, "_on_dialogue_closed"))
 	
 	if dialogue_box.has_signal("option_selected") and npc_node.has_method("_on_option_selected"):
-		dialogue_box.connect("option_selected", Callable(npc_node, "_on_option_selected"))
+		if not dialogue_box.is_connected("option_selected", Callable(npc_node, "_on_option_selected")):
+			dialogue_box.connect("option_selected", Callable(npc_node, "_on_option_selected"))
 
 # 公共接口：结束对话
 func end_dialogue() -> void:
@@ -483,6 +662,10 @@ func resume_game() -> void:
 	# 确保鼠标被捕获
 	set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
+	# 播放恢复游戏音效
+	if AudioManager and AudioManager.has_method("play_sound"):
+		AudioManager.play_sound("ui_unpause", -5.0)
+	
 	# 隐藏暂停菜单
 	if pause_menu and pause_menu.has_method("resume_game"):
 		pause_menu.resume_game()
@@ -499,7 +682,7 @@ func resume_game() -> void:
 			else:
 				# 如果找不到暂停菜单，直接恢复游戏状态
 				get_tree().paused = false
-
+				print("直接恢复游戏状态，未找到暂停菜单")
 
 
 # 公共接口：开始过场动画
@@ -538,5 +721,5 @@ func _on_dialogue_box_closed() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _on_dialogue_space_pressed() -> void:
-	if dialogue_box and dialogue_box.has_method("handle_space"):
-		dialogue_box.handle_space()
+	if dialogue_box and dialogue_box.has_method("process_space_key"):
+		dialogue_box.process_space_key()

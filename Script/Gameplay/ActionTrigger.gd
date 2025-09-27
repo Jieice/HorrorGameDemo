@@ -18,39 +18,23 @@ enum ActionType {
 @export var complete_task_objective: String = ""  # 完成的任务目标
 @export var task_description: String = ""  # 任务描述，用于触发新任务
 
+# 优化：统一动作提示变量命名和结构，增加注释
 var is_player_nearby: bool = false
 var action_ui: Label = null
 var action_area: Area3D = null
-var is_action_executed: bool = false
 var player_controller: Node = null
+var is_action_executed: bool = false
 
 func _ready():
 	# 获取PlayerController
 	player_controller = get_parent().get_node_or_null("PlayerController")
 	if not player_controller:
-		# 如果在父节点中找不到，尝试从根节点获取（向后兼容）
 		player_controller = get_node_or_null("/root/PlayerController")
-	if player_controller:
-		print("ActionTrigger: 成功获取PlayerController")
-	else:
-		print("ActionTrigger: 无法获取PlayerController")
-	
-	# 获取ActionArea节点
-	action_area = get_node_or_null("ActionArea")
-	if action_area:
-		print("ActionTrigger: 成功获取ActionArea")
-		# 连接信号
-		action_area.connect("body_entered", _on_action_area_body_entered)
-		action_area.connect("body_exited", _on_action_area_body_exited)
-	else:
-		print("ActionTrigger: 无法获取ActionArea")
-	
 	# 创建动作区域（如果不存在）
 	if not has_node("ActionArea"):
 		action_area = Area3D.new()
 		action_area.name = "ActionArea"
 		add_child(action_area)
-		
 		# 添加碰撞形状
 		var collision_shape = CollisionShape3D.new()
 		var shape = BoxShape3D.new()
@@ -59,20 +43,20 @@ func _ready():
 		action_area.add_child(collision_shape)
 	else:
 		action_area = get_node("ActionArea")
-	
+	# 连接动作区域信号
+	action_area.body_entered.connect(_on_action_area_body_entered)
+	action_area.body_exited.connect(_on_action_area_body_exited)
 	# 连接PlayerController的信号
 	if player_controller:
 		player_controller.connect("state_changed", _on_player_state_changed)
-	
 	# 创建动作提示UI
 	action_ui = Label.new()
-	action_ui.text = action_prompt
+	action_ui.text = get_prompt_text()
 	action_ui.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	action_ui.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	action_ui.set("theme_override_font_sizes/font_size", 16)
 	action_ui.set("theme_override_colors/font_color", Color.WHITE)
 	action_ui.visible = false
-	
 	# 将UI添加到CanvasLayer
 	var canvas_layer = CanvasLayer.new()
 	add_child(canvas_layer)
@@ -158,7 +142,6 @@ func get_prompt_text() -> String:
 func _on_action_area_body_entered(body):
 	if body.is_in_group("Player"):
 		is_player_nearby = true
-		# 只有在玩家状态为NORMAL时才显示交互提示
 		if player_controller and player_controller.current_state == player_controller.PlayerState.NORMAL:
 			action_ui.visible = true
 

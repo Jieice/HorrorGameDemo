@@ -1,5 +1,6 @@
 extends Node3D
 
+# 优化：统一交互提示变量命名和结构，增加注释
 @export var object_name: String = "default_object" # 对象名称，用于任务系统识别
 @export var interaction_prompt: String = "按 E 键交互" # 交互提示文本
 @export var trigger_task_id: String = ""  # 触发的任务ID
@@ -26,13 +27,11 @@ func _ready():
 	if not player_controller:
 		# 如果在父节点中找不到，尝试从根节点获取（向后兼容）
 		player_controller = get_node_or_null("/root/PlayerController")
-	
 	# 创建交互区域（如果不存在）
 	if not has_node("InteractionArea"):
 		interaction_area = Area3D.new()
 		interaction_area.name = "InteractionArea"
 		add_child(interaction_area)
-		
 		# 添加碰撞形状
 		var collision_shape = CollisionShape3D.new()
 		var shape = SphereShape3D.new()
@@ -41,15 +40,12 @@ func _ready():
 		interaction_area.add_child(collision_shape)
 	else:
 		interaction_area = get_node("InteractionArea")
-	
 	# 连接交互区域信号
 	interaction_area.body_entered.connect(_on_interaction_area_body_entered)
 	interaction_area.body_exited.connect(_on_interaction_area_body_exited)
-	
 	# 连接PlayerController的信号
 	if player_controller:
 		player_controller.connect("state_changed", _on_player_state_changed)
-	
 	# 创建交互提示UI
 	interaction_ui = Label.new()
 	interaction_ui.text = interaction_prompt
@@ -58,7 +54,6 @@ func _ready():
 	interaction_ui.set("theme_override_font_sizes/font_size", 16)
 	interaction_ui.set("theme_override_colors/font_color", Color.WHITE)
 	interaction_ui.visible = false
-	
 	# 将UI添加到CanvasLayer
 	var canvas_layer = CanvasLayer.new()
 	add_child(canvas_layer)
@@ -180,15 +175,16 @@ func _on_player_state_changed(old_state: int, new_state: int):
 	print("InteractableObject检测到玩家状态变化: 从 ", old_state, " 到 ", new_state)
 	# 根据玩家状态更新UI可见性
 	if is_player_nearby:
-		interaction_ui.visible = (new_state == 0)  # 0 = NORMAL状态
+		interaction_ui.visible = (new_state == player_controller.PlayerState.NORMAL)
 
 # 当玩家进入交互范围时
 func _on_interaction_area_body_entered(body):
 	if body.is_in_group("Player"):
 		is_player_nearby = true
-		# 只有在玩家状态为NORMAL时才显示交互提示
 		if player_controller and player_controller.current_state == player_controller.PlayerState.NORMAL:
 			interaction_ui.visible = true
+		else:
+			interaction_ui.visible = false
 
 # 当玩家离开交互范围时
 func _on_interaction_area_body_exited(body):

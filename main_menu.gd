@@ -36,11 +36,10 @@ func _ready() -> void:
 	
 	# 主菜单只需要鼠标可见，不需要其他复杂逻辑
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	print("主菜单: 鼠标设置为可见状态")
 
 func _on_start_pressed() -> void:
 	# 切换到游戏场景，让游戏场景自己处理玩家控制
-	get_tree().change_scene_to_file("res://Scene/Level/world.tscn")
+	get_tree().change_scene_to_file("res://Scene/Level/Prologue_Station.tscn")
 
 func _on_settings_pressed() -> void:
 	# 显示设置界面

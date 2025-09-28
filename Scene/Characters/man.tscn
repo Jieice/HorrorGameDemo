@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0muom"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" groups=["NPC"]]
+[node name="CharacterBody3D" type="CharacterBody3D" groups=["Interactable", "NPC"]]
 script = ExtResource("1_ibsqb")
 npc_name = "流浪汉"
 dialogue_lines = ["……夜色真长，不是吗？长得足够让一个人忘记自己本来的样子。", "看你的表情，是在等一趟回家的车？ 呵……", "回家啊……有时候，比流浪还冷。因为流浪是身冷，回家……是心冷。"]

@@ -1,11 +1,11 @@
 [gd_scene load_steps=15 format=3 uid="uid://5oerfqve4qop"]
 
 [ext_resource type="Texture2D" uid="uid://det3gy7cp65uk" path="res://Assets/Environment/dikhololo_night_2k.exr" id="5_h5d2d"]
-[ext_resource type="PackedScene" uid="uid://cqn7j8rvbwdu1" path="res://Scene/escena.tscn" id="5_me7wt"]
+[ext_resource type="PackedScene" uid="uid://cqn7j8rvbwdu1" path="res://Scene/Level/Prologue_Elevator.tscn" id="5_me7wt"]
 [ext_resource type="PackedScene" uid="uid://doxgcru2gtel8" path="res://Assets/3DModels/light.glb" id="5_s50bo"]
 [ext_resource type="PackedScene" uid="uid://b8pj6nfet87qc" path="res://Assets/3DModels/Sence1.glb" id="7_a5owa"]
 [ext_resource type="PackedScene" uid="uid://d8j4x2l5k3b9c" path="res://Scene/Characters/man.tscn" id="7_r7xep"]
-[ext_resource type="PackedScene" uid="uid://b3cq0swmd2ntu" path="res://Scene/grass.tscn" id="7_s3ls2"]
+[ext_resource type="PackedScene" uid="uid://b3cq0swmd2ntu" path="res://Scene/Level/Prologue_GlassDoor.tscn" id="7_s3ls2"]
 [ext_resource type="PackedScene" uid="uid://bw5b4vkf7kx0y" path="res://Assets/3DModels/train.glb" id="8_a5owa"]
 
 

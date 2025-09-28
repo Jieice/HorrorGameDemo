@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://p3horrr2h5fu"]
 
-[ext_resource type="PackedScene" uid="uid://5oerfqve4qop" path="res://Scene/Level/Sence1.tscn" id="3_tbv4h"]
+[ext_resource type="PackedScene" uid="uid://5oerfqve4qop" path="res://Scene/Level/Prologue_Subway.tscn" id="3_tbv4h"]
 [ext_resource type="PackedScene" uid="uid://ctvbe81cn76qj" path="res://Scene/Player/player.tscn" id="4_dq8dg"]
 [ext_resource type="Script" uid="uid://xohu7oganmje" path="res://Script/Gameplay/SpawnPoint.gd" id="6_jxfsf"]
 [ext_resource type="PackedScene" uid="uid://bi7er3q6wqpg4" path="res://Scene/pause_menu.tscn" id="8_qyimn"]

@@ -1,5 +1,8 @@
 extends Control
 
+# 信号声明
+signal closed
+
 # 音频设置
 var sound_effect_volume: float = 1.0
 var bgm_volume: float = 1.0
@@ -17,6 +20,7 @@ const BGM_BUS_IDX = 2  # 背景音乐总线索引
 
 # 初始化
 func _ready():
+	
 	# 确保处理模式设置正确
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -76,9 +80,9 @@ func save_settings():
 	# 保存到文件
 	var err = config.save(CONFIG_FILE_PATH)
 	if err != OK:
-		print("错误：无法保存设置文件，错误代码：", err)
+		pass
 	else:
-		print("设置已成功保存到：", CONFIG_FILE_PATH)
+		pass
 
 # 应用设置
 func apply_settings():
@@ -145,6 +149,8 @@ func _on_save_button_pressed():
 	apply_settings()
 	# 确保不会显示ESC菜单
 	get_viewport().set_input_as_handled()
+	# 发出关闭信号
+	emit_signal("closed")
 	# 隐藏并释放
 	hide()
 	call_deferred("queue_free")
@@ -165,6 +171,8 @@ func _on_cancel_button_pressed():
 	update_ui_from_settings()
 	# 确保不会显示ESC菜单
 	get_viewport().set_input_as_handled()
+	# 发出关闭信号
+	emit_signal("closed")
 	# 隐藏并释放
 	hide()
 	call_deferred("queue_free")
@@ -202,7 +210,7 @@ func _connect_signals():
 			fullscreen_checkbox.toggled.connect(_on_fullscreen_check_box_toggled)
 	
 	# 连接按钮信号 - 使用直接路径而不是%
-	var save_button = get_node_or_null("VBoxContainer/Buttons/SaveButton")
+	var save_button = get_node_or_null("Panel/VBoxContainer/ButtonContainer/SaveButton")
 	if not save_button:
 		save_button = get_node_or_null("%SaveButton")
 	if save_button:
@@ -210,7 +218,7 @@ func _connect_signals():
 		if not save_button.pressed.is_connected(_on_save_button_pressed):
 			save_button.pressed.connect(_on_save_button_pressed)
 	
-	var cancel_button = get_node_or_null("VBoxContainer/Buttons/CancelButton")
+	var cancel_button = get_node_or_null("Panel/VBoxContainer/ButtonContainer/CancelButton")
 	if not cancel_button:
 		cancel_button = get_node_or_null("%CancelButton")
 	if cancel_button:

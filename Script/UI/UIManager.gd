@@ -11,6 +11,7 @@ var _typing_label: Node = null
 var _typing_text: String = ""
 var _typing_index: int = 0
 var _typing_timer: Timer = null
+var _typing_speed: float = 0.03  # 默认打字速度
 
 # 任务提示系统
 var task_manager: Node = null
@@ -40,3 +41,67 @@ func _ready() -> void:
 func _on_player_state_changed(old_state, new_state):
 	print("UIManager检测到玩家状态变化: 从 ", old_state, " 到 ", new_state)
 	# 可在此扩展其它UI逻辑
+	
+# 打字机效果实现
+func typewriter(label: Node, text: String, speed: float = -1) -> void:
+	print("=== UIManager.typewriter被调用 ===")
+	print("要显示的文本: ", text)
+	
+	# 如果已经在打字，先停止
+	if _typing and _typing_timer and _typing_timer.is_inside_tree():
+		_typing_timer.stop()
+		_typing_timer.queue_free()
+		_typing = false
+	
+	# 设置打字速度
+	var typing_speed = speed if speed > 0 else _typing_speed
+	
+	# 初始化打字机状态
+	_typing = true
+	_typing_label = label
+	_typing_text = text
+	_typing_index = 0
+	
+	# 清空标签文本
+	if label is RichTextLabel or label is Label:
+		label.text = ""
+	
+	# 创建定时器
+	_typing_timer = Timer.new()
+	_typing_timer.wait_time = typing_speed
+	_typing_timer.one_shot = false
+	add_child(_typing_timer)
+	_typing_timer.connect("timeout", _on_typing_timer_timeout)
+	_typing_timer.start()
+	
+# 打字机定时器回调
+func _on_typing_timer_timeout() -> void:
+	if not _typing or not _typing_label or not _typing_label.is_inside_tree():
+		if _typing_timer:
+			_typing_timer.stop()
+			_typing_timer.queue_free()
+		_typing = false
+		return
+	
+	# 添加下一个字符
+	if _typing_index < _typing_text.length():
+		if _typing_label is RichTextLabel or _typing_label is Label:
+			_typing_label.text += _typing_text[_typing_index]
+		_typing_index += 1
+	else:
+		# 打字完成
+		_typing = false
+		if _typing_timer:
+			_typing_timer.stop()
+			_typing_timer.queue_free()
+			
+# 立即完成打字
+func complete_typing() -> void:
+	if _typing and _typing_label and _typing_label.is_inside_tree():
+		if _typing_label is RichTextLabel or _typing_label is Label:
+			_typing_label.text = _typing_text
+		
+		_typing = false
+		if _typing_timer:
+			_typing_timer.stop()
+			_typing_timer.queue_free()

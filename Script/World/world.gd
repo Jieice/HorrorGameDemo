@@ -15,17 +15,15 @@ var interaction_hint: Node = null
 func _ready():
 	# 添加到World组，便于其他节点查找
 	add_to_group("World")
-	print("World: 已添加到World组")
 	
 	# 实例化DialogueBox（因为autoload可能无法正确加载）
 	var dialogue_scene = preload("res://Scene/DialogueBox.tscn")
 	dialogue_box = dialogue_scene.instantiate()
 	add_child(dialogue_box)
-	print("World: 已实例化DialogueBox")
 	
 	# 创建交互提示UI
 	_create_interaction_hint()
-	
+
 	# 延迟实例化PlayerController，确保玩家节点已经存在
 	call_deferred("_initialize_player_controller")
 
@@ -58,7 +56,6 @@ func _create_interaction_hint():
 	# 添加到UI层
 	canvas.add_child(hint)
 	interaction_hint = hint
-	print("World: 已创建交互提示UI并放入CanvasLayer/UI")
 
 func _initialize_player_controller() -> void:
 	# 等待一帧确保玩家节点已经生成
@@ -68,7 +65,6 @@ func _initialize_player_controller() -> void:
 	var player_controller_script = preload("res://Script/Gameplay/PlayerController.gd")
 	player_controller = player_controller_script.new()
 	add_child(player_controller)
-	print("World: 已实例化PlayerController")
 	
 	# 连接PlayerController的信号
 	player_controller.connect("state_changed", _on_player_state_changed)
@@ -79,7 +75,6 @@ func _unhandled_input(_event: InputEvent) -> void:
 
 # 玩家状态变化处理
 func _on_player_state_changed(old_state, new_state):
-	print("World检测到玩家状态变化: 从 ", old_state, " 到 ", new_state)
 	# 根据玩家状态控制世界场景
 	match new_state:
 		0: # NORMAL

@@ -1,10 +1,11 @@
 extends Control
 
 @onready var resume_button: Button = $VBoxContainer/ResumeButton
+@onready var settings_button: Button = $VBoxContainer/SettingsButton
 @onready var quit_button: Button = $VBoxContainer/QuitButton
 @onready var heartbeat_player: AudioStreamPlayer = $HeartbeatPlayer
+@onready var back_main_button: Button = $VBoxContainer/BackMainButton
 @onready var ui_manager: Node = get_node_or_null("/root/UIManager")
-@onready var settings_button: Button = $VBoxContainer/MainMenuButton
 
 const SETTINGS_UI_SCENE = preload("res://Scene/UI/SettingsUI.tscn")
 
@@ -17,6 +18,7 @@ func _ready() -> void:
 	resume_button.text = "继续游戏"
 	settings_button.text = "设置"
 	quit_button.text = "退出游戏"
+	back_main_button.text = '返回主菜单'
 	
 	# 使用 UIManager 应用风格 + 动画
 	if ui_manager:
@@ -25,10 +27,11 @@ func _ready() -> void:
 			ui_manager.apply_horror_effects(resume_button, Callable(self, "_on_resume_pressed"))
 			ui_manager.apply_horror_effects(settings_button, Callable(self, "_on_settings_pressed"))
 			ui_manager.apply_horror_effects(quit_button, Callable(self, "_on_quit_pressed"))
+			ui_manager.apply_horror_effects(quit_button, Callable(self, "_back_main_pressed"))
 
 func _unhandled_input(event: InputEvent) -> void:
 	# 只处理ESC键按下事件
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("esc"):
 		get_viewport().set_input_as_handled() # 立即标记事件已处理
 		
 		if visible:
@@ -108,10 +111,19 @@ func _on_settings_pressed() -> void:
 	
 	# 设置UI显示在暂停菜单上方
 	settings_ui.show()
-	
 	# 确保鼠标可见
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-
+	
+func _back_main_pressed() ->void:
+	# 隐藏暂停菜单
+	visible = false
+	# 确保游戏未暂停
+	get_tree().paused = false
+	# 重置鼠标模式为可见（主菜单需要可见的鼠标）
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	# 切换回主菜单场景
+	get_tree().change_scene_to_file("res://Scene/main_menu.tscn")
+	
 func _on_quit_pressed() -> void:
 	# 确保游戏未暂停
 	get_tree().paused = false

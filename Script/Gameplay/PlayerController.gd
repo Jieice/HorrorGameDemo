@@ -21,17 +21,13 @@ var task_manager: Node = null
 var current_scene: String = ""
 
 func _ready() -> void:
-	print("PlayerController初始化完成")
-	
 	# 检查当前场景
 	var root = get_tree().get_current_scene()
 	if root:
 		current_scene = root.name
-		print("当前场景: ", current_scene)
 		
 		# 只在游戏场景中启用，主菜单中不工作
 		if current_scene == "MainMenu":
-			print("主菜单场景，PlayerController不启用")
 			return
 	
 	# 初始化节点引用
@@ -152,6 +148,10 @@ func set_mouse_mode(mode: int) -> void:
 	print("鼠标模式变化: ", old_mode, " -> ", mode)
 
 func _input(event: InputEvent) -> void:
+	# 如果是ESC键，让ESC菜单处理
+	if event.is_action_pressed("ui_cancel"):
+		return
+		
 	match current_state:
 		PlayerState.NORMAL:
 			_handle_normal_input(event)
@@ -303,7 +303,7 @@ var raycast_enabled: bool = true
 
 func _initialize_raycast() -> void:
 	if not player_node:
-		print("警告：_initialize_raycast时player_node为空")
+		# 移除警告打印，避免控制台刷屏
 		return
 	
 	# 优先使用玩家场景中已有的RayCast3D

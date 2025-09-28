@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyl7lf36fscto"]
+[gd_scene load_steps=2 format=3 uid="uid://87a36usay4b3"]
 
-[ext_resource type="Script" path="res://Script/UI/esc_menu.gd" id="1_yvmkr"]
+[ext_resource type="Script" uid="uid://2cod5x8qr5j0" path="res://Script/UI/esc_menu.gd" id="1_yvmkr"]
 
 [node name="ESCMenu" type="Control"]
 layout_mode = 3

@@ -26,7 +26,6 @@ func on_option_selected(index: int) -> void:
 func _ready() -> void:
 	# 添加到DialogueBox分组，便于PlayerController查找
 	add_to_group("DialogueBox")
-	print("DialogueBox已添加到分组，节点路径: ", get_path())
 	
 	# 从父节点查找PlayerController
 	player_controller = get_parent().get_node_or_null("PlayerController")
@@ -40,11 +39,6 @@ func _ready() -> void:
 
 # 对话内容数组
 func start_dialogue(dialogue_lines: Array, speaker_name: String = "") -> void:
-	print("=== dialogue_box.start_dialogue被调用 ===")
-	print("对话行数: ", dialogue_lines.size())
-	print("说话人: ", speaker_name)
-	print("对话内容: ", dialogue_lines)
-	
 	# 重置选择相关变量
 	_clear_choices()
 	
@@ -62,12 +56,9 @@ func start_dialogue(dialogue_lines: Array, speaker_name: String = "") -> void:
 	text_label.text = ""
 	continue_label.visible = false
 	
-	print("开始显示第一行对话")
 	if lines.size() > 0:
-		print("第一行内容: ", lines[0])
 		_type_text(lines[0])
 	else:
-		print("警告：对话内容为空")
 		close_dialogue()
 
 # 添加选择对话框功能
@@ -179,10 +170,10 @@ func _type_text(text: String, emotion: String = "normal") -> void:
 	# 根据情绪设置文本样式
 	_apply_emotion_style(emotion)
 	
-	# 使用UIManager的打字机效果
 	if ui_manager and ui_manager.has_method("typewriter"):
 		print("使用UIManager的打字机效果")
-		text_label.text = text
+		# 调用UIManager的打字机效果
+		ui_manager.typewriter(text_label, text, text_speed)
 
 		# 安全等待打字机效果完成
 		if ui_manager._typing_timer and is_instance_valid(ui_manager._typing_timer):
@@ -208,7 +199,7 @@ func _type_text(text: String, emotion: String = "normal") -> void:
 		
 # 根据情绪设置文本样式
 func _apply_emotion_style(emotion: String) -> void:
-	var base_font_size = 16
+	var base_font_size = 24  # 增大基础字体大小
 	
 	# 重置样式
 	text_label.add_theme_font_size_override("normal_font_size", base_font_size)

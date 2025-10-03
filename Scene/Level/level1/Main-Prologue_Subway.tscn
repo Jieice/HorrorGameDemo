@@ -1,13 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://5oerfqve4qop"]
+[gd_scene load_steps=16 format=3 uid="uid://5oerfqve4qop"]
 
+[ext_resource type="Script" uid="uid://cqlrkvsxp6b4" path="res://Script/World/auto_spawn_player.gd" id="1_auto_spawn"]
 [ext_resource type="Texture2D" uid="uid://det3gy7cp65uk" path="res://Assets/Environment/dikhololo_night_2k.exr" id="5_h5d2d"]
-[ext_resource type="PackedScene" uid="uid://cqn7j8rvbwdu1" path="res://Scene/Level/Prologue_Elevator.tscn" id="5_me7wt"]
+[ext_resource type="PackedScene" uid="uid://cbxgl40nuu4ky" path="res://Scene/Level/level1/Prologue_Elevator.tscn" id="5_me7wt"]
 [ext_resource type="PackedScene" uid="uid://doxgcru2gtel8" path="res://Assets/3DModels/light.glb" id="5_s50bo"]
 [ext_resource type="PackedScene" uid="uid://b8pj6nfet87qc" path="res://Assets/3DModels/Sence1.glb" id="7_a5owa"]
-[ext_resource type="PackedScene" uid="uid://d8j4x2l5k3b9c" path="res://Scene/Characters/man.tscn" id="7_r7xep"]
-[ext_resource type="PackedScene" uid="uid://b3cq0swmd2ntu" path="res://Scene/Level/Prologue_GlassDoor.tscn" id="7_s3ls2"]
+[ext_resource type="PackedScene" uid="uid://d5ad0ov0vgik" path="res://Scene/Characters/man.tscn" id="7_r7xep"]
+[ext_resource type="PackedScene" uid="uid://b3cq0swmd2ntu" path="res://Scene/Level/level1/Prologue_GlassDoor.tscn" id="7_s3ls2"]
 [ext_resource type="PackedScene" uid="uid://bw5b4vkf7kx0y" path="res://Assets/3DModels/train.glb" id="8_a5owa"]
-
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ru0v1"]
 size = Vector3(7.26978, 4.34851, 1)
@@ -78,7 +78,7 @@ _data = {
 &"move": SubResource("Animation_a5owa")
 }
 
-[node name="Sence1" type="Node3D"]
+[node name="Main" type="Node3D"]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
@@ -236,3 +236,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.29082, -0.713764, 0.639629)
 [node name="Sence" parent="." instance=ExtResource("7_a5owa")]
 
 [node name="grass" parent="." instance=ExtResource("7_s3ls2")]
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+script = ExtResource("1_auto_spawn")

@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvmxeuo8rxgfe"]
+[gd_scene load_steps=3 format=3 uid="uid://bjmn3v6ichxwg"]
 
-[ext_resource type="Script" uid="uid://b1wh5vpbc1d6a" path="res://main_menu.gd" id="1_ftydy"]
+[ext_resource type="Script" path="res://main_menu.gd" id="1_ftydy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
 bg_color = Color(0, 0, 0, 0.5)
@@ -52,15 +52,18 @@ custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 48
+text = "开始游戏	"
 
 [node name="SettingsButton" type="Button" parent="VBoxContainer"]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 48
+text = "游戏设置"
 
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 48
+text = "退出游戏"

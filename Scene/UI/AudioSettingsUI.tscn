@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8qvnpyukq5ov"]
+[gd_scene load_steps=2 format=3 uid="uid://c6b4ayf68qcnr"]
 
 [ext_resource type="Script" path="res://Script/UI/AudioSettingsUI.gd" id="1_yjk2p"]
 

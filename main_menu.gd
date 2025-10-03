@@ -39,7 +39,7 @@ func _ready() -> void:
 
 func _on_start_pressed() -> void:
 	# 切换到游戏场景，让游戏场景自己处理玩家控制
-	get_tree().change_scene_to_file("res://Scene/Level/Prologue_Station.tscn")
+	get_tree().change_scene_to_file("res://Scene/Level/level1/Main-Prologue_Subway.tscn")
 
 func _on_settings_pressed() -> void:
 	# 显示设置界面

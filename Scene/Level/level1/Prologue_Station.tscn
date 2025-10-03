@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://p3horrr2h5fu"]
 
-[ext_resource type="PackedScene" uid="uid://5oerfqve4qop" path="res://Scene/Level/Prologue_Subway.tscn" id="3_tbv4h"]
-[ext_resource type="PackedScene" uid="uid://ctvbe81cn76qj" path="res://Scene/Player/player.tscn" id="4_dq8dg"]
-[ext_resource type="Script" uid="uid://xohu7oganmje" path="res://Script/Gameplay/SpawnPoint.gd" id="6_jxfsf"]
-[ext_resource type="PackedScene" uid="uid://bi7er3q6wqpg4" path="res://Scene/pause_menu.tscn" id="8_qyimn"]
-[ext_resource type="PackedScene" uid="uid://dhk8mljuyqehd" path="res://Scene/DialogueBox.tscn" id="9_dialogue_box"]
-[ext_resource type="Script" uid="uid://c7ojap7cs4tmt" path="res://Script/World/world.gd" id="9_world"]
-[ext_resource type="Script" uid="uid://b2nqm3k7s6lxh" path="res://Script/Gameplay/PlayerController.gd" id="10_player_controller"]
+[ext_resource type="PackedScene" uid="uid://5oerfqve4qop" path="res://Scene/Level/level1/Main-Prologue_Subway.tscn" id="3_tbv4h"]
+[ext_resource type="PackedScene" uid="uid://bjwfk3xmpt8j5" path="res://Scene/Player/player.tscn" id="4_dq8dg"]
+[ext_resource type="Script" path="res://Script/Gameplay/SpawnPoint.gd" id="6_jxfsf"]
+[ext_resource type="PackedScene" path="res://Scene/pause_menu.tscn" id="8_qyimn"]
+[ext_resource type="PackedScene" uid="uid://c7k3nan2p5q1r" path="res://Scene/DialogueBox.tscn" id="9_dialogue_box"]
+[ext_resource type="Script" path="res://Script/World/world.gd" id="9_world"]
+[ext_resource type="Script" path="res://Script/Gameplay/PlayerController.gd" id="10_player_controller"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_mchih"]
 top_radius = 0.0

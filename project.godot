@@ -15,17 +15,6 @@ run/main_scene="res://Scene/main_menu.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-PlayerController="*res://Script/Gameplay/PlayerController.gd"
-Fps="*res://Scene/fps.tscn"
-DialogueBox="*res://Scene/DialogueBox.tscn"
-PauseMenu="*res://Scene/pause_menu.tscn"
-TaskManager="*res://Script/Gameplay/TaskManager.gd"
-UIManager="*res://Script/UI/UIManager.gd"
-CornerSettingsButton="*res://Scene/UI/CornerSettingsButton.tscn"
-AudioManager="*res://Script/Audio/AudioManager.gd"
-
 [display]
 
 window/size/viewport_width=1920

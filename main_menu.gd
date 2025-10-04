@@ -38,8 +38,12 @@ func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_start_pressed() -> void:
-	# 切换到游戏场景，让游戏场景自己处理玩家控制
-	get_tree().change_scene_to_file("res://Scene/Level/level1/Main-Prologue_Subway.tscn")
+	# 使用淡入淡出过渡切换到游戏场景
+	var transition = get_node_or_null("/root/SceneTransition")
+	if transition:
+		transition.change_scene("res://Scene/Level/level1/Main-Prologue_Subway.tscn", 1.0, 2.0)
+	else:
+		get_tree().change_scene_to_file("res://Scene/Level/level1/Main-Prologue_Subway.tscn")
 
 func _on_settings_pressed() -> void:
 	# 显示设置界面

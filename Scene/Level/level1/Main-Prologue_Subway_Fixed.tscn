@@ -1,0 +1,382 @@
+[gd_scene load_steps=35 format=3 uid="uid://5oerfqve4qop"]
+
+[ext_resource type="Script" uid="uid://cqlrkvsxp6b4" path="res://Script/World/auto_spawn_player.gd" id="1_auto_spawn"]
+[ext_resource type="Script" uid="uid://ddtreuq7t27tv" path="res://Script/Gameplay/StoryManager.gd" id="1_s1tqv"]
+[ext_resource type="Texture2D" uid="uid://det3gy7cp65uk" path="res://Assets/Environment/dikhololo_night_2k.exr" id="5_h5d2d"]
+[ext_resource type="PackedScene" uid="uid://cbxgl40nuu4ky" path="res://Scene/Level/level1/Prologue_Elevator.tscn" id="5_me7wt"]
+[ext_resource type="PackedScene" uid="uid://doxgcru2gtel8" path="res://Assets/3DModels/light.glb" id="5_s50bo"]
+[ext_resource type="PackedScene" uid="uid://b8pj6nfet87qc" path="res://Assets/3DModels/Sence1.glb" id="7_a5owa"]
+[ext_resource type="AudioStream" uid="uid://dbkwuecnoohs2" path="res://Assets/Audio/SFX/mugwumb__metro-leaving-the-station.wav" id="7_jnr68"]
+[ext_resource type="PackedScene" uid="uid://b3cq0swmd2ntu" path="res://Scene/Level/level1/Prologue_GlassDoor.tscn" id="7_s3ls2"]
+[ext_resource type="PackedScene" uid="uid://bw5b4vkf7kx0y" path="res://Assets/3DModels/train.glb" id="8_a5owa"]
+[ext_resource type="Script" uid="uid://ct7pyg2q7ixk3" path="res://Script/Gameplay/ItemStoryNode.gd" id="9_mx6e3"]
+[ext_resource type="PackedScene" uid="uid://cgg2yt71ogxva" path="res://Scene/Characters/stranger_npc.tscn" id="10_s1tqv"]
+[ext_resource type="PackedScene" path="res://Scene/VFX/DustParticles.tscn" id="12_23kak"]
+[ext_resource type="Script" uid="uid://dwtfcdsf54dhj" path="res://Script/Gameplay/GazeableClock.gd" id="13_jnr68"]
+[ext_resource type="Script" uid="uid://coxhkda2qiisv" path="res://Script/Gameplay/PickableTicket.gd" id="14_pbw76"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ru0v1"]
+size = Vector3(7.26978, 4.34851, 1)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ru0v1"]
+panorama = ExtResource("5_h5d2d")
+
+[sub_resource type="Sky" id="Sky_qh1xb"]
+sky_material = SubResource("PanoramaSkyMaterial_ru0v1")
+
+[sub_resource type="Environment" id="Environment_h5d2d"]
+background_mode = 2
+sky = SubResource("Sky_qh1xb")
+tonemap_mode = 2
+tonemap_exposure = 0.8
+tonemap_white = 1.2
+ssr_enabled = true
+ssao_enabled = true
+ssao_radius = 0.2
+ssao_intensity = 1.5
+sdfgi_enabled = true
+glow_enabled = true
+glow_intensity = 0.6
+glow_strength = 2.0
+glow_bloom = 0.6
+fog_enabled = true
+fog_light_color = Color(0.227451, 0.227451, 0.313726, 1)
+fog_light_energy = 0.3
+fog_density = 0.02
+fog_height = 2.0
+
+[sub_resource type="Animation" id="Animation_s3ls2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-9.91827, 1.662, -74.6769)]
+}
+
+[sub_resource type="Animation" id="Animation_a5owa"]
+resource_name = "move"
+length = 25.0
+loop_mode = 2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(5, 15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-9.91827, 1.662, -74.6769), Vector3(-9.91827, 1.662, 74.2812)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_od2nk"]
+_data = {
+&"RESET": SubResource("Animation_s3ls2"),
+&"move": SubResource("Animation_a5owa")
+}
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_mx6e3"]
+height = 0.9453125
+radius = 0.35791016
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_s1tqv"]
+height = 1.415
+radial_segments = 12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djest"]
+albedo_color = Color(1, 0.22101516, 0.46409392, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_23kak"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jnr68"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pbw76"]
+albedo_color = Color(0.43212786, 0.71200925, 1, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_qsnqb"]
+height = 0.16210938
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_7g725"]
+height = 0.12
+
+[sub_resource type="BoxMesh" id="BoxMesh_7k3cs_hour"]
+size = Vector3(0.05, 0.01, 0.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7k3cs_minute"]
+size = Vector3(0.03, 0.01, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clock_hand"]
+albedo_color = Color(0.2, 0.2, 0.2, 1.0)
+metallic = 0.8
+roughness = 0.2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh"]
+
+[sub_resource type="SphereMesh" id="SphereMesh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7k3cs"]
+albedo_color = Color(0, 0.6733596, 0.31869656, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ticket"]
+size = Vector3(0.2, 0.2, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ticket"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_s1tqv")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12)
+shape = SubResource("BoxShape3D_ru0v1")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 12)
+shape = SubResource("BoxShape3D_ru0v1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h5d2d")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 8)
+shadow_enabled = true
+omni_range = 8.0
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -8)
+shadow_enabled = true
+omni_range = 8.0
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+shadow_enabled = true
+omni_range = 8.0
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.23909, 5, 8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.23909, 5, -8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.23909, 5, 0)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D7" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.86492, 5, 8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D8" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.86492, 5, -8)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="OmniLight3D9" type="OmniLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.86492, 5, 0)
+shadow_enabled = true
+omni_range = 8.88
+omni_attenuation = 0.01
+
+[node name="escena" type="Node3D" parent="."]
+
+[node name="escena" parent="escena" instance=ExtResource("5_me7wt")]
+
+[node name="escena2" parent="escena" instance=ExtResource("5_me7wt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -10)
+
+[node name="escena3" parent="escena" instance=ExtResource("5_me7wt")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="escena4" parent="escena" instance=ExtResource("5_me7wt")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.5, 10)
+
+[node name="convert" type="Node3D" parent="."]
+
+[node name="lights" type="Node3D" parent="convert"]
+
+[node name="convert" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, 0)
+
+[node name="convert2" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, -1.23951)
+
+[node name="convert3" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, 0)
+
+[node name="convert4" parent="convert/lights" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, -1.23951)
+
+[node name="lights2" type="Node3D" parent="convert"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="convert" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, 0)
+
+[node name="convert2" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, -1.23951)
+
+[node name="convert3" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, 0)
+
+[node name="convert4" parent="convert/lights2" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, -1.23951)
+
+[node name="lights3" type="Node3D" parent="convert"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
+
+[node name="convert" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, 0)
+
+[node name="convert2" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 6.46882, -1.23951)
+
+[node name="convert3" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, 0)
+
+[node name="convert4" parent="convert/lights3" instance=ExtResource("5_s50bo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 6.46882, -1.23951)
+
+[node name="train" parent="." instance=ExtResource("8_a5owa")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.06392, 1.66201, 0)
+
+[node name="train2" parent="." instance=ExtResource("8_a5owa")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -9.91827, 1.662, -74.6769)
+
+[node name="OmniLight3D10" type="OmniLight3D" parent="train2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -7.46214, 0.41991, 1.05335)
+shadow_enabled = true
+omni_attenuation = 0.5
+
+[node name="OmniLight3D11" type="OmniLight3D" parent="train2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 8.53786, 0.41991, 1.05335)
+shadow_enabled = true
+omni_attenuation = 0.5
+
+[node name="OmniLight3D12" type="OmniLight3D" parent="train2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.537864, 0.41991, 1.05335)
+shadow_enabled = true
+omni_attenuation = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="train2"]
+libraries = {
+&"": SubResource("AnimationLibrary_od2nk")
+}
+autoplay = "move"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="train2"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.4686966, -1.662, 1.4481583)
+stream = ExtResource("7_jnr68")
+autoplay = true
+
+[node name="Sence" parent="." instance=ExtResource("7_a5owa")]
+
+[node name="grass" parent="." instance=ExtResource("7_s3ls2")]
+
+[node name="SpawnPoint" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+script = ExtResource("1_auto_spawn")
+
+[node name="story_node" type="Node" parent="."]
+
+[node name="old_luggage" type="StaticBody3D" parent="story_node" groups=["Interactable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3809533, 0.5, 0.5785583)
+script = ExtResource("9_mx6e3")
+story_node_id = "prologue_luggage"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="story_node/old_luggage" groups=["Interactable"]]
+shape = SubResource("CylinderShape3D_mx6e3")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="story_node/old_luggage"]
+transform = Transform3D(0.675, 0, 0, 0, 0.675, 0, 0, 0, 0.675, 0, 0, 0)
+mesh = SubResource("CylinderMesh_s1tqv")
+surface_material_override/0 = SubResource("StandardMaterial3D_djest")
+
+[node name="old_ticket" type="StaticBody3D" parent="story_node" groups=["Interactable"]]
+transform = Transform3D(0.37, 0, 0, 0, 0.37, 0, 0, 0, 0.37, -2.8972418, 0.2, 0)
+script = ExtResource("9_mx6e3")
+story_node_id = "prologue_ticket"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="story_node/old_ticket" groups=["Interactable"]]
+shape = SubResource("BoxShape3D_23kak")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="story_node/old_ticket"]
+mesh = SubResource("BoxMesh_jnr68")
+surface_material_override/0 = SubResource("StandardMaterial3D_pbw76")
+
+[node name="old_clock" type="StaticBody3D" parent="story_node" groups=["Interactable"]]
+transform = Transform3D(-3.1909313e-08, 0.73, 0, -0.73, -3.1909313e-08, 0, 0, 0, 0.73, -2.9847405, 2.1911063, 0)
+script = ExtResource("9_mx6e3")
+story_node_id = "prologue_clock"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="story_node/old_clock"]
+transform = Transform3D(0.9999999, -7.1054274e-15, 0, 7.1054274e-15, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
+shape = SubResource("CylinderShape3D_qsnqb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="story_node/old_clock"]
+mesh = SubResource("CylinderMesh_7g725")
+surface_material_override/0 = SubResource("StandardMaterial3D_7k3cs")
+
+[node name="ClockHand" type="Node3D" parent="story_node/old_clock"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="HourHand" type="MeshInstance3D" parent="story_node/old_clock/ClockHand"]
+transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0, 0.3)
+mesh = SubResource("BoxMesh_7k3cs_hour")
+surface_material_override/0 = SubResource("StandardMaterial3D_clock_hand")
+
+[node name="MinuteHand" type="MeshInstance3D" parent="story_node/old_clock/ClockHand"]
+transform = Transform3D(1, 0, 0, 0, 0.05, 0, 0, 0, 1, 0, 0, 0.4)
+mesh = SubResource("BoxMesh_7k3cs_minute")
+surface_material_override/0 = SubResource("StandardMaterial3D_clock_hand")
+
+[node name="stranger_npc" parent="." instance=ExtResource("10_s1tqv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5627558, 0.29507327, 0.63027024)
+
+[node name="DustParticles" parent="." instance=ExtResource("12_23kak")]
+
+[node name="TestClock" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2461898, 0.5, 6.2660537)
+script = ExtResource("13_jnr68")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestClock"]
+shape = SubResource("BoxShape3D_ticket")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestClock"]
+mesh = SubResource("BoxMesh_ticket")
+
+[node name="Ticket" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2822752, 0.5, 4.420462)
+script = ExtResource("res://Script/Gameplay/SpecialTicket.gd")
+first_inspect_text = "这张票据...目的地被水晕开了，看不清楚...但日期似乎是今天。"
+second_inspect_text = "等等！票据背面有东西...用手指轻轻一抹...隐约能看到几行字：\"记住，戴上面具才能生存。面具完整度：0%\""
+heart_rate_increase = 15.0
+play_sound = "heartbeat"
+trigger_darkness = true
+max_stages = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ticket"]
+shape = SubResource("BoxShape3D_ticket")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ticket"]
+mesh = SubResource("BoxMesh_ticket")

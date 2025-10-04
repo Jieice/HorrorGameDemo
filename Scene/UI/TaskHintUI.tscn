@@ -1,38 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8j8x3l5k2a8a"]
+[gd_scene load_steps=3 format=3 uid="uid://b8j8x3l5k2a8a"]
 
-[ext_resource type="Script" path="res://Script/UI/TaskHintUI.gd" id="1_2p3q4"]
+[ext_resource type="Script" uid="uid://dx1pj07hp2q0f" path="res://Script/UI/task_hint_ui.gd" id="1_4qkb5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4qkb5"]
+bg_color = Color(0.6174547, 0.61745477, 0.6174546, 1)
 
 [node name="TaskHintUI" type="CanvasLayer"]
-script = ExtResource("1_2p3q4")
+script = ExtResource("1_4qkb5")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 3
-anchors_preset = 15
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = -1
+anchor_left = 0.052
+anchor_top = 0.046000004
+anchor_right = 0.21400002
+anchor_bottom = 0.148
+offset_left = 0.15999603
+offset_top = 0.31999588
+offset_right = 0.1199646
+offset_bottom = 0.16000366
+
+[node name="TitleLabel" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.22115384
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_4qkb5")
+text = "任务章节"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="DescLabel" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -11.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="HintLabel" type="Label" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "任务提示"
-horizontal_alignment = 1
-
-[node name="TaskListContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 5
-
-[node name="TaskItem" type="Label" parent="MarginContainer/VBoxContainer/TaskListContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "任务项"
-horizontal_alignment = 0
+text = "任务细节"

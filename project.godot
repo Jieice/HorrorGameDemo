@@ -15,6 +15,27 @@ run/main_scene="res://Scene/main_menu.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SceneTransition="*res://Scene/UI/SceneTransition.tscn"
+TaskHintUI="*res://Scene/UI/TaskHintUI.tscn"
+StoryManager="*res://Script/Gameplay/StoryManager.gd"
+ColorGradeFilter="*res://Scene/VFX/ColorGradeFilter.tscn"
+ScreenEffects="*res://Scene/VFX/ScreenEffects.tscn"
+CameraEffects="*res://Script/VFX/CameraEffects.gd"
+AudioManager="*res://Scene/Audio/AudioManager.tscn"
+MaskManager="*res://Script/Gameplay/MaskManager.gd"
+MaskUI="*res://Scene/UI/MaskUI.tscn"
+LightingController="*res://Script/World/LightingController.gd"
+HeartRateSystem="*res://Script/Gameplay/HeartRateSystem.gd"
+GazeSystem="*res://Script/Gameplay/GazeSystem.gd"
+EnvironmentProgressSystem="*res://Script/World/EnvironmentProgressSystem.gd"
+HeartRateUI="*res://Scene/UI/HeartRateUI.tscn"
+DarknessEventManager="*res://Script/Gameplay/DarknessEventManager.gd"
+DialogueManager="*res://Script/UI/DialogueManager.gd"
+TrainArrivalManager="*res://Script/Gameplay/TrainArrivalManager.gd"
+HeartRatePostEffects="*res://Script/VFX/HeartRatePostEffects.gd"
+
 [display]
 
 window/size/viewport_width=1920

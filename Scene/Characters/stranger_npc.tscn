@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgg2yt71ogxva"]
+
+[ext_resource type="Script" path="res://Script/Gameplay/NPCNode.gd" id="1_npc"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ffnuu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_6uhgo"]
+
+[node name="stranger_npc" type="StaticBody3D" groups=["Interactable"]]
+script = ExtResource("1_npc")
+story_node_id = "prologue_stranger"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_ffnuu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_6uhgo")

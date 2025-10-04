@@ -1,0 +1,116 @@
+[gd_scene load_steps=3 format=3 uid="uid://horror_env_prologue"]
+
+## 恐怖游戏环境配置
+## 参考：寂静岭（浓雾）、生化危机（高对比度）、逃生（颗粒噪点）
+## 作者：AI Assistant
+## 日期：2025-10-04
+
+[sub_resource type="Environment" id="Environment_horror"]
+# 背景模式：纯色
+background_mode = 1
+background_color = Color(0.02, 0.02, 0.03, 1)  # 几乎全黑的背景
+
+# 环境光照 - 冷色调（寂静岭风格）
+ambient_light_source = 1  # Color
+ambient_light_color = Color(0.15, 0.18, 0.25, 1)  # 冷蓝色调
+ambient_light_energy = 0.3  # 很低的环境光
+ambient_light_sky_contribution = 0.0
+
+# 色调映射 - 提高对比度（生化危机风格）
+tonemap_mode = 3  # Filmic
+tonemap_exposure = 0.5  # 降低曝光，更暗
+tonemap_white = 0.8  # 降低白点，增加对比度
+
+# SSAO（屏幕空间环境光遮蔽）- 增强阴影
+ssao_enabled = true
+ssao_radius = 1.5  # 更大的遮蔽半径
+ssao_intensity = 3.0  # 强烈的阴影遮蔽
+ssao_power = 2.5
+ssao_detail = 1.0
+ssao_horizon = 0.15
+ssao_sharpness = 1.0
+ssao_light_affect = 0.5
+ssao_ao_channel_affect = 1.0
+
+# SSR（屏幕空间反射）- 湿润感
+ssr_enabled = true
+ssr_max_steps = 64
+ssr_fade_in = 0.3
+ssr_fade_out = 2.0
+ssr_depth_tolerance = 0.5
+
+# SSIL（屏幕空间间接照明）- 微弱的反射光
+ssil_enabled = true
+ssil_radius = 5.0
+ssil_intensity = 0.5
+ssil_sharpness = 0.95
+
+# SDFGI - 关闭以获得更暗的氛围
+sdfgi_enabled = false
+
+# 辉光（Glow）- 增强光源恐怖感
+glow_enabled = true
+glow_levels/1 = 0.0
+glow_levels/2 = 0.5
+glow_levels/3 = 1.0
+glow_levels/4 = 1.0
+glow_levels/5 = 0.8
+glow_levels/6 = 0.5
+glow_levels/7 = 0.0
+glow_intensity = 0.4  # 降低辉光强度
+glow_strength = 1.2
+glow_mix = 0.95
+glow_bloom = 0.15  # 轻微的泛光效果
+glow_blend_mode = 0  # Additive
+glow_hdr_threshold = 0.8
+glow_hdr_scale = 1.5
+
+# 调整参数 - 增强恐怖效果
+adjustment_enabled = true
+adjustment_brightness = 0.85  # 降低亮度
+adjustment_contrast = 1.25  # 提高对比度
+adjustment_saturation = 0.65  # 降低饱和度（灰暗感）
+
+# 体积雾（Volumetric Fog）- 寂静岭浓雾效果
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.08  # 较浓的雾气
+volumetric_fog_albedo = Color(0.35, 0.38, 0.45, 1)  # 冷色调雾气
+volumetric_fog_emission = Color(0, 0, 0, 1)
+volumetric_fog_emission_energy = 0.0
+volumetric_fog_gi_inject = 0.5
+volumetric_fog_anisotropy = 0.7
+volumetric_fog_length = 64.0
+volumetric_fog_detail_spread = 2.0
+volumetric_fog_ambient_inject = 0.3
+volumetric_fog_sky_affect = 0.2
+volumetric_fog_temporal_reprojection_enabled = true
+volumetric_fog_temporal_reprojection_amount = 0.9
+
+# 传统雾（作为备用）
+fog_enabled = true
+fog_mode = 1  # Exponential
+fog_light_color = Color(0.18, 0.20, 0.28, 1)  # 冷色调
+fog_light_energy = 0.2  # 很弱的雾光
+fog_sun_scatter = 0.0
+fog_density = 0.03  # 中等密度
+fog_aerial_perspective = 0.5
+fog_sky_affect = 0.3
+fog_height = 0.0
+fog_height_density = 0.01
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_horror"]
+# 相机曝光 - 模拟低光环境
+dof_blur_far_enabled = false
+dof_blur_near_enabled = false
+auto_exposure_enabled = true
+auto_exposure_scale = 0.6  # 降低自动曝光
+auto_exposure_min_sensitivity = 50  # ISO 50（极暗）
+auto_exposure_max_sensitivity = 800  # ISO 800（允许噪点）
+auto_exposure_speed = 0.5  # 慢速适应（进入暗处需要时间）
+exposure_multiplier = 0.4  # 整体曝光降低
+exposure_sensitivity = 100  # ISO 100（中低感光度）
+
+[node name="HorrorEnvironment" type="WorldEnvironment"]
+environment = SubResource("Environment_horror")
+camera_attributes = SubResource("CameraAttributesPractical_horror")
+

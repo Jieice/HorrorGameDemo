@@ -1,7 +1,7 @@
-extends Node
+extends Node3D
+class_name Interactable
+@export var interactable: bool = true
+@export var interact_hint: String = "按E互动"
 
-class_name Interaction
-
-func interact() -> void:
-	# 留给子类实现
-	pass
+func interact():
+	print("被互动对象：", self.name)

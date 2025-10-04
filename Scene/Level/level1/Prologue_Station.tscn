@@ -22,6 +22,20 @@ albedo_color = Color(1, 0, 0, 1)
 top_radius = 0.0
 bottom_radius = 0.15
 
+[sub_resource type="BoxShape3D" id="BoxShape3D"]
+
+[sub_resource type="BoxMesh" id="BoxMesh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ticket"]
+albedo_color = Color(0.9, 0.9, 0.9, 1.0)
+metallic = 0.1
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_test_button"]
+albedo_color = Color(1, 0.5, 0, 1.0)
+metallic = 0.0
+roughness = 0.3
+
 [node name="Node" type="Node"]
 script = ExtResource("9_world")
 
@@ -42,3 +56,20 @@ material_override = SubResource("StandardMaterial3D_mchih")
 mesh = SubResource("CylinderMesh_5pd5d")
 
 [node name="PauseMenu" parent="." instance=ExtResource("8_qyimn")]
+
+[node name="TestDarknessButton" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.5, 0)
+script = ExtResource("res://Script/Gameplay/TestDarknessButton.gd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestDarknessButton"]
+shape = SubResource("BoxShape3D")
+
+[node name="PickableTicket" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.2, -1.5)
+script = ExtResource("res://Script/Gameplay/PickableTicket.gd")
+ticket_text = "目的地被水晕开了，看不清楚...也好，去哪里都一样。"
+stranger_node_path = NodePath("../Node3D/StrangerNPC")
+stranger_new_position = Vector3(1.5, 0, -2.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PickableTicket"]
+shape = SubResource("BoxShape3D")

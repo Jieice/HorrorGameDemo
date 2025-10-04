@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://darknesstest"]
+
+[ext_resource type="Script" path="res://Script/Gameplay/DarknessEventManager.gd" id="1_darkness"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D"]
+
+[node name="DarknessEventManager" type="Node"]
+script = ExtResource("1_darkness")
+
+[node name="TestButton" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestButton"]
+shape = SubResource("BoxShape3D")
+
+[node name="StrangerNPC" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StrangerNPC"]
+shape = SubResource("BoxShape3D")

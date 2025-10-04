@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=3 uid="uid://8wedcq5lplkh"]
+
+[ext_resource type="Script" path="res://Script/World/EnvironmentProgressSystem.gd" id="1_env"]
+
+[sub_resource type="BoxMesh" id="BoxMesh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D"]
+albedo_color = Color(0.5, 0.5, 0.5, 1.0)
+
+[node name="EnvironmentProgressSystem" type="Node"]
+script = ExtResource("1_env")
+
+[node name="WaterStain" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+script = ExtResource("res://Script/World/WaterStainAnimation.gd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WaterStain"]
+mesh = SubResource("BoxMesh")
+surface_material_override/0 = SubResource("StandardMaterial3D")
+
+[node name="WallPeel" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+script = ExtResource("res://Script/World/WallPeelAnimation.gd")
+
+[node name="WallMesh" type="MeshInstance3D" parent="WallPeel"]
+mesh = SubResource("BoxMesh")
+surface_material_override/0 = SubResource("StandardMaterial3D")
+
+[node name="CeilingDistortion" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+script = ExtResource("res://Script/World/CeilingDistortionAnimation.gd")
+
+[node name="CeilingMesh" type="MeshInstance3D" parent="CeilingDistortion"]
+mesh = SubResource("BoxMesh")
+surface_material_override/0 = SubResource("StandardMaterial3D")
+
+[node name="CrackLight" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
+script = ExtResource("res://Script/World/CrackGlowAnimation.gd")
+
+[node name="CrackLight" type="OmniLight3D" parent="CrackLight"]
+visible = false
+light_energy = 0.0
+light_color = Color(1, 0.3, 0, 1)
+omni_range = 3.0

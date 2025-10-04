@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>独立游戏免费上架平台完全指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        dark: '#1F2937',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fa fa-gamepad text-primary text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-900">独立游戏发布指南</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#free-platforms" class="text-gray-700 hover:text-primary transition-colors duration-300">免费平台</a>
+                    <a href="#low-cost-platforms" class="text-gray-700 hover:text-primary transition-colors duration-300">低成本平台</a>
+                    <a href="#mobile-platforms" class="text-gray-700 hover:text-primary transition-colors duration-300">移动端平台</a>
+                    <a href="#strategies" class="text-gray-700 hover:text-primary transition-colors duration-300">选择策略</a>
+                    <a href="#cases" class="text-gray-700 hover:text-primary transition-colors duration-300">成功案例</a>
+                </div>
+                <button class="md:hidden" id="mobile-menu-btn">
+                    <i class="fa fa-bars text-gray-700"></i>
+                </button>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="#free-platforms" class="block px-3 py-2 text-gray-700 hover:text-primary">免费平台</a>
+                <a href="#low-cost-platforms" class="block px-3 py-2 text-gray-700 hover:text-primary">低成本平台</a>
+                <a href="#mobile-platforms" class="block px-3 py-2 text-gray-700 hover:text-primary">移动端平台</a>
+                <a href="#strategies" class="block px-3 py-2 text-gray-700 hover:text-primary">选择策略</a>
+                <a href="#cases" class="block px-3 py-2 text-gray-700 hover:text-primary">成功案例</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <header class="gradient-bg text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">独立游戏免费上架平台</h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">完全指南：从发布到成功的全方位攻略</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#free-platforms" class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300">
+                        <i class="fa fa-rocket mr-2"></i>开始探索平台
+                    </a>
+                    <a href="#strategies" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary transition-all duration-300">
+                        <i class="fa fa-lightbulb-o mr-2"></i>查看选择策略
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- 简介部分 -->
+        <section class="mb-16">
+            <div class="bg-white rounded-xl shadow-lg p-8 md:p-12">
+                <div class="flex items-center mb-6">
+                    <div class="bg-primary/10 p-3 rounded-lg mr-4">
+                        <i class="fa fa-info-circle text-primary text-2xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900">为什么选择合适的发布平台至关重要</h2>
+                </div>
+                <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                    作为独立游戏开发者，选择合适的发布平台对游戏的成功至关重要。正确的平台选择不仅能让你的游戏触达更多潜在玩家，
+                    还能显著影响你的收入分成、开发成本和市场推广效果。本指南将全面介绍目前市场上可供独立游戏免费或低成本上架的平台，
+                    帮助开发者根据自身需求选择最适合的发布渠道。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                    <div class="text-center">
+                        <div class="bg-secondary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-users text-secondary text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">扩大受众</h3>
+                        <p class="text-gray-600">选择合适的平台触达目标玩家群体</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-dollar text-accent text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">降低成本</h3>
+                        <p class="text-gray-600">利用免费或低成本平台减少发布支出</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa fa-line-chart text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-2">提升收益</h3>
+                        <p class="text-gray-600">优化收入分成比例最大化利润</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 完全免费的独立游戏平台 -->
+        <section id="free-platforms" class="mb-16">
+            <div class="flex items-center mb-8">
+                <div class="bg-secondary/10 p-3 rounded-lg mr-4">
+                    <i class="fa fa-gift text-secondary text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">完全免费的独立游戏平台</h2>
+            </div>
+            
+            <!-- itch.io -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 card-hover">
+                <div class="md:flex">
+                    <div class="md:flex-shrink-0">
+                        <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://doc.doubao.com/s/fg87rNq-deE/" alt="独立游戏开发界面">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-semibold mr-3">推荐</span>
+                            <h3 class="text-2xl font-bold text-gray-900">itch.io</h3>
+                        </div>
+                        <p class="text-gray-700 mb-4">
+                            itch.io是全球最大的独立游戏平台，被誉为"独立游戏版Steam平台"和"游戏界的卢浮宫"。该平台每月吸引3000多万人访问，拥有超过70万款独立游戏，其中大部分是免费的。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">核心优势：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>完全免费上传游戏，无需支付任何费用</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>开发者可自由设置定价策略：免费发布、固定价格或"Pay What You Want"模式</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>平台抽成比例灵活，默认10%，开发者可选择降至0%</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>无需内容审核或投票机制，上传门槛极低</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">
+                                <i class="fa fa-lightbulb-o text-accent mr-2"></i>
+                                <strong>适用场景：</strong>特别适合学生、个人开发者或想测试创意的团队，是游戏Demo版本发布和早期测试的理想平台。例如，《蜡烛人》的雏形就曾通过itch.io收集玩家反馈。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Jolt -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 card-hover">
+                <div class="md:flex">
+                    <div class="md:flex-shrink-0">
+                        <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://doc.doubao.com/s/eZUv6ggTyK4/" alt="Unity独立游戏开发">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Game Jolt</h3>
+                        <p class="text-gray-700 mb-4">
+                            Game Jolt是另一个专注于独立游戏的平台，为开发者提供免费的游戏发布服务。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">核心优势：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>完全免费上传和发布游戏</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>活跃的社区氛围，玩家可直接与开发者交流</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>支持多种游戏类型，包括PC、移动和网页游戏</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>提供游戏数据分析工具</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">
+                                <i class="fa fa-lightbulb-o text-accent mr-2"></i>
+                                <strong>适用场景：</strong>适合希望建立玩家社区并获得早期反馈的独立开发者。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GDevelop的gd.games平台 -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 card-hover">
+                <div class="md:flex">
+                    <div class="md:flex-shrink-0">
+                        <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://doc.doubao.com/s/e2ibZAQeg5g/" alt="独立游戏开发代码">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">GDevelop的gd.games平台</h3>
+                        <p class="text-gray-700 mb-4">
+                            gd.games是GDevelop游戏引擎官方提供的免费游戏发布平台。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">核心优势：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>完全免费的游戏托管服务</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>专门针对GDevelop引擎开发的游戏优化</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>支持自定义游戏链接，激活用户反馈功能</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>可直接从GDevelop编辑器导出并发布</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">
+                                <i class="fa fa-lightbulb-o text-accent mr-2"></i>
+                                <strong>适用场景：</strong>适合使用GDevelop引擎开发游戏的独立开发者。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 低成本或有条件免费的平台 -->
+        <section id="low-cost-platforms" class="mb-16">
+            <div class="flex items-center mb-8">
+                <div class="bg-accent/10 p-3 rounded-lg mr-4">
+                    <i class="fa fa-tag text-accent text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">低成本或有条件免费的平台</h2>
+            </div>
+
+            <!-- Epic Games Store -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 card-hover">
+                <div class="md:flex">
+                    <div class="md:flex-shrink-0">
+                        <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://doc.doubao.com/s/05sirpHXD58/" alt="Epic Games Store">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-accent text-white px-3 py-1 rounded-full text-sm font-semibold mr-3">热门</span>
+                            <h3 class="text-2xl font-bold text-gray-900">Epic Games Store</h3>
+                        </div>
+                        <p class="text-gray-700 mb-4">
+                            Epic Games Store自2025年6月起实施了对独立开发者极为友好的新政策。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">核心优势：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>每款应用每年的前100万美元收益可免除商城费用（0%分成）</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>超出部分按88%/12%（开发者/平台）比例分成</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>支持开发者创建"托管给Epic的网络商店"，避免苹果和谷歌的高额抽成</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>玩家通过Webshop消费可获得5%的Epic积分返利</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">
+                                <i class="fa fa-lightbulb-o text-accent mr-2"></i>
+                                <strong>适用场景：</strong>适合有潜力获得较高收入的独立游戏，尤其是预计年收入在100万美元以下的作品几乎可以视为免费发布。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steam -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 card-hover">
+                <div class="md:flex">
+                    <div class="md:flex-shrink-0">
+                        <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://doc.doubao.com/s/-2qs_YM5X7E/" alt="Steam商店">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Steam</h3>
+                        <p class="text-gray-700 mb-4">
+                            Steam是全球最大的PC游戏数字发行平台，虽然不是完全免费，但有条件退款政策使其成为独立开发者的重要选择。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">核心优势：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>需支付100美元的"直接发行费"，但游戏销售额达到1000美元时会返还</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>庞大的用户基础和完善的运营体系</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>支持多种游戏类型和商业模式</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>提供丰富的开发者工具和社区功能</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">
+                                <i class="fa fa-lightbulb-o text-accent mr-2"></i>
+                                <strong>适用场景：</strong>适合有一定开发预算且对游戏质量有信心的独立开发者。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TapTap -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8 card-hover">
+                <div class="md:flex">
+                    <div class="md:flex-shrink-0">
+                        <img class="h-48 w-full object-cover md:h-full md:w-48" src="https://doc.doubao.com/s/vJzVkIvVBuw/" alt="App Store游戏界面">
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">TapTap</h3>
+                        <p class="text-gray-700 mb-4">
+                            TapTap是一个支持国内独立游戏开发者的平台，对独立游戏有特殊扶持政策。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">核心优势：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>个人开发者可免费注册账号并发布游戏</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>有"聚光灯计划"支持独立游戏，提供更多曝光机会</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>提供星火编辑器，帮助新手开发者更轻松地开发游戏</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>活跃的中文社区，便于与国内玩家互动</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600">
+                                <i class="fa fa-lightbulb-o text-accent mr-2"></i>
+                                <strong>适用场景：</strong>适合希望面向国内市场的独立游戏开发者。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 移动端免费发布平台 -->
+        <section id="mobile-platforms" class="mb-16">
+            <div class="flex items-center mb-8">
+                <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                    <i class="fa fa-mobile text-purple-600 text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">移动端免费发布平台</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 国内安卓应用商店 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-green-100 p-3 rounded-lg mr-4">
+                            <i class="fa fa-android text-green-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">国内安卓应用商店</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        虽然国内安卓应用商店通常需要版号，但部分平台对独立游戏有特殊政策。
+                    </p>
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-lg mb-2 text-gray-900">核心优势：</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                <span>华为、小米、OPPO、VIVO等应用商店对优质独立游戏可能提供免费上架机会</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                <span>庞大的用户基础，尤其是在三四线城市</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                <span>本地化服务和支付方式</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-sm mb-2 text-yellow-800">
+                            <i class="fa fa-exclamation-triangle mr-2"></i>注意事项：
+                        </h4>
+                        <ul class="text-sm text-yellow-700 space-y-1">
+                            <li>• 通常需要软著和版号</li>
+                            <li>• 需要接入各家SDK，流程相对繁琐</li>
+                            <li>• 收入分成比例一般为5:5</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 第三方移动游戏平台 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                            <i class="fa fa-globe text-blue-600 text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">第三方移动游戏平台</h3>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        除了官方应用商店，还有一些第三方平台支持独立游戏免费发布。
+                    </p>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">TapTap国际版：</h4>
+                            <ul class="space-y-1 text-gray-700">
+                                <li>• 专注于提供游戏和应用下载</li>
+                                <li>• 适合游戏开发者和独立开发者</li>
+                                <li>• 国际化支持，可面向全球用户</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">QooApp：</h4>
+                            <ul class="space-y-1 text-gray-700">
+                                <li>• 专注于亚洲游戏的应用商店</li>
+                                <li>• 适合想在亚洲推广的游戏开发者</li>
+                                <li>• 对独立游戏有一定的扶持政策</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 网页游戏免费发布平台 -->
+        <section id="web-platforms" class="mb-16">
+            <div class="flex items-center mb-8">
+                <div class="bg-red-100 p-3 rounded-lg mr-4">
+                    <i class="fa fa-code text-red-600 text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">网页游戏免费发布平台</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Newgrounds -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-orange-100 p-2 rounded-lg mr-3">
+                            <i class="fa fa-play-circle text-orange-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Newgrounds</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm mb-4">
+                        Newgrounds是一个老牌的游戏和动画分享平台，支持独立开发者免费发布网页游戏。
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>完全免费上传和发布</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>活跃的社区氛围</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>提供游戏数据分析工具</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Poki -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-green-100 p-2 rounded-lg mr-3">
+                            <i class="fa fa-gamepad text-green-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Poki</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm mb-4">
+                        Poki专注于网页游戏，对独立开发者较为友好。
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>免费提交游戏</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>通过广告收入分成</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>庞大的用户基础</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crazy Games -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                            <i class="fa fa-star text-purple-600"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">Crazy Games</h3>
+                    </div>
+                    <p class="text-gray-700 text-sm mb-4">
+                        Crazy Games是另一个知名的网页游戏平台。
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>免费发布游戏</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>提供游戏推广支持</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <i class="fa fa-check text-secondary mr-2"></i>
+                            <span>适合HTML5游戏</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 平台选择策略与建议 -->
+        <section id="strategies" class="mb-16">
+            <div class="flex items-center mb-8">
+                <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                    <i class="fa fa-lightbulb-o text-blue-600 text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">平台选择策略与建议</h2>
+            </div>
+
+            <!-- 根据游戏类型选择平台 -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">根据游戏类型选择平台</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
+                                <i class="fa fa-desktop text-blue-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">PC游戏</h4>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p class="font-medium">首选：</p>
+                            <p class="text-gray-600">Steam、Epic Games Store</p>
+                            <p class="font-medium mt-2">备选：</p>
+                            <p class="text-gray-600">itch.io（测试版）、GOG</p>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                <i class="fa fa-mobile text-green-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">移动游戏</h4>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p class="font-medium">首选：</p>
+                            <p class="text-gray-600">App Store、Google Play</p>
+                            <p class="font-medium mt-2">备选：</p>
+                            <p class="text-gray-600">TapTap、第三方应用商店</p>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-purple-100 p-2 rounded-lg mr-3">
+                                <i class="fa fa-gamepad text-purple-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">网页游戏</h4>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p class="font-medium">首选：</p>
+                            <p class="text-gray-600">Newgrounds、Poki</p>
+                            <p class="font-medium mt-2">备选：</p>
+                            <p class="text-gray-600">itch.io（支持网页游戏）</p>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-red-100 p-2 rounded-lg mr-3">
+                                <i class="fa fa-eye text-red-600"></i>
+                            </div>
+                            <h4 class="font-semibold text-lg">VR游戏</h4>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <p class="font-medium">首选：</p>
+                            <p class="text-gray-600">Meta Quest Store、SteamVR</p>
+                            <p class="font-medium mt-2">备选：</p>
+                            <p class="text-gray-600">Pico Store</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 发布策略建议 -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-6">发布策略建议</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa fa-bullseye text-yellow-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">新手开发者</h4>
+                        <ol class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="bg-yellow-200 text-yellow-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+                                <span>先在itch.io发布游戏Demo，收集玩家反馈</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-yellow-200 text-yellow-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+                                <span>完善游戏后，考虑Steam或Epic Games Store</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-yellow-200 text-yellow-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+                                <span>移动端可尝试TapTap或Google Play</span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div>
+                        <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa fa-users text-blue-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">资源有限的团队</h4>
+                        <ol class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+                                <span>优先选择完全免费的平台（itch.io、Game Jolt）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+                                <span>利用社交媒体和游戏论坛进行免费推广</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-200 text-blue-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+                                <span>考虑与其他独立开发者合作互推</span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div>
+                        <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
+                            <i class="fa fa-rocket text-green-600 text-xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-3">有一定预算的团队</h4>
+                        <ol class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <span class="bg-green-200 text-green-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+                                <span>多平台发布，扩大覆盖范围</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-green-200 text-green-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+                                <span>投资适量资金进行游戏推广</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-green-200 text-green-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+                                <span>考虑与游戏主播合作，提升游戏曝光度</span>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 成功案例分析 -->
+        <section id="cases" class="mb-16">
+            <div class="flex items-center mb-8">
+                <div class="bg-green-100 p-3 rounded-lg mr-4">
+                    <i class="fa fa-trophy text-green-600 text-2xl"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900">成功案例分析</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 监狱建筑师 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <i class="fa fa-building text-4xl mb-2"></i>
+                            <h3 class="text-2xl font-bold">《监狱建筑师》</h3>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-700 mb-4">
+                            《监狱建筑师》是由英国独立工作室Introversion Software开发的模拟经营游戏，在Steam平台获得了3000万美元（近2亿元）以上的收入。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">关键策略：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>通过官方网站开启类似众筹的预售活动，获得150万美元启动资金</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>采用Alpha版本早期发布策略，持续收集玩家反馈并迭代</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>专注于游戏质量而非大规模营销</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>团队虽小但坚持15年，最终获得巨大成功</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg">
+                            <p class="text-sm text-purple-700">
+                                <i class="fa fa-quote-left mr-2"></i>
+                                该游戏之所以能够最终推出，完全是得益于玩家的支持。
+                                <i class="fa fa-quote-right ml-2"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 独立开发者马田 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="h-48 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center">
+                        <div class="text-center text-white">
+                            <i class="fa fa-line-chart text-4xl mb-2"></i>
+                            <h3 class="text-2xl font-bold">数据分析网站</h3>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-gray-700 mb-4">
+                            一位名为马田的独立开发者为英雄联盟制作了数据分析网站，实现了125万日活用户，年收入约1300万，最终以5400万被收购。
+                        </p>
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-lg mb-2 text-gray-900">关键启示：</h4>
+                            <ul class="space-y-2">
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>从细分领域切入，解决特定用户需求</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>利用游戏API开发辅助工具也是可行的商业模式</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa fa-check-circle text-secondary mr-2"></i>
+                                    <span>专注用户体验和数据分析，提升产品价值</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <p class="text-sm text-blue-700">
+                                <i class="fa fa-quote-left mr-2"></i>
+                                百万的日活用户就表示千万级别的年收入，一个细分到不能再细分的领域的垂直市场，它不见得赚不到钱。
+                                <i class="fa fa-quote-right ml-2"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 总结与展望 -->
+        <section class="mb-16">
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl shadow-lg p-8 md:p-12 text-white">
+                <div class="flex items-center mb-6">
+                    <div class="bg-white/20 p-3 rounded-lg mr-4">
+                        <i class="fa fa-flag-checkered text-2xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">总结与展望</h2>
+                </div>
+                <p class="text-lg mb-6 opacity-90">
+                    独立游戏开发者有多种免费或低成本的平台选择，从完全免费的itch.io到有条件免费的Epic Games Store，每个平台都有其独特的优势和适用场景。
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg mb-2">
+                            <i class="fa fa-bullseye mr-2"></i>选择合适的平台
+                        </h3>
+                        <p class="text-sm opacity-90">根据游戏类型和目标受众选择合适的平台</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg mb-2">
+                            <i class="fa fa-comments mr-2"></i>利用免费平台测试
+                        </h3>
+                        <p class="text-sm opacity-90">利用免费平台进行早期测试和反馈收集</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg mb-2">
+                            <i class="fa fa-globe mr-2"></i>多平台发布策略
+                        </h3>
+                        <p class="text-sm opacity-90">制定长期发布策略，考虑多平台发布</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg mb-2">
+                            <i class="fa fa-heart mr-2"></i>重视社区建设
+                        </h3>
+                        <p class="text-sm opacity-90">重视社区建设和玩家反馈</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg mb-2">
+                            <i class="fa fa-graduation-cap mr-2"></i>持续学习
+                        </h3>
+                        <p class="text-sm opacity-90">持续学习和关注行业动态，及时调整策略</p>
+                    </div>
+                    <div class="bg-white/10 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg mb-2">
+                            <i class="fa fa-star mr-2"></i>专注游戏质量
+                        </h3>
+                        <p class="text-sm opacity-90">始终将游戏质量和用户体验放在首位</p>
+                    </div>
+                </div>
+                <p class="text-lg font-semibold">
+                    随着游戏行业的不断发展，越来越多的平台开始重视独立游戏开发者，提供更友好的政策和更多的支持。独立开发者应充分利用这些机会，将创意转化为成功的游戏产品。
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-gamepad text-primary text-2xl"></i>
+                        <span class="font-bold text-xl">独立游戏发布指南</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        为独立游戏开发者提供最全面的平台选择指南和发布策略建议。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fa fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fa fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fa fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">
+                            <i class="fa fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#free-platforms" class="text-gray-400 hover:text-white transition-colors duration-300">免费平台</a></li>
+                        <li><a href="#low-cost-platforms" class="text-gray-400 hover:text-white transition-colors duration-300">低成本平台</a></li>
+                        <li><a href="#mobile-platforms" class="text-gray-400 hover:text-white transition-colors duration-300">移动端平台</a></li>
+                        <li><a href="#strategies" class="text-gray-400 hover:text-white transition-colors duration-300">选择策略</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">相关资源</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">游戏开发教程</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">市场分析报告</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">开发者社区</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">行业新闻</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 独立游戏发布指南. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-primary text-white w-12 h-12 rounded-full shadow-lg hover:bg-primary/90 transition-all duration-300 opacity-0 pointer-events-none">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // 关闭移动端菜单
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+
+        // 返回顶部按钮
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.add('opacity-100');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.remove('opacity-100');
+            }
+
+            // 导航栏滚动效果
+            const nav = document.querySelector('nav');
+            if (window.pageYOffset > 50) {
+                nav.classList.add('bg-white/95', 'backdrop-blur-sm');
+            } else {
+                nav.classList.remove('bg-white/95', 'backdrop-blur-sm');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 卡片动画观察器
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有卡片元素
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

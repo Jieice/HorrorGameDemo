@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://simpletest"]
+
+[ext_resource type="Script" path="res://Script/Gameplay/StoryManager.gd" id="1_story"]
+[ext_resource type="Script" path="res://Script/Gameplay/HeartRateSystem.gd" id="2_heart"]
+[ext_resource type="Script" path="res://Script/Gameplay/DarknessEventManager.gd" id="3_darkness"]
+[ext_resource type="Script" path="res://Script/UI/DialogueManager.gd" id="4_dialogue"]
+[ext_resource type="Script" path="res://Script/Gameplay/SpecialTicket.gd" id="5_ticket"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D"]
+size = Vector3(0.2, 0.2, 0.02)
+
+[sub_resource type="BoxMesh" id="BoxMesh"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_story")
+
+[node name="HeartRateSystem" type="Node"]
+script = ExtResource("2_heart")
+
+[node name="DarknessEventManager" type="Node"]
+script = ExtResource("3_darkness")
+
+[node name="DialogueManager" type="Node"]
+script = ExtResource("4_dialogue")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 2, 5)
+
+[node name="TestTicket" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+script = ExtResource("5_ticket")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestTicket"]
+shape = SubResource("BoxShape3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestTicket"]
+mesh = SubResource("BoxMesh")

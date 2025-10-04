@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://terrortest"]
+
+[ext_resource type="Script" path="res://Script/Gameplay/StoryManager.gd" id="1_story"]
+[ext_resource type="Script" path="res://Script/Gameplay/HeartRateSystem.gd" id="2_heart"]
+[ext_resource type="Script" path="res://Script/Gameplay/DarknessEventManager.gd" id="3_darkness"]
+[ext_resource type="Script" path="res://Script/UI/DialogueManager.gd" id="4_dialogue"]
+
+[node name="StoryManager" type="Node"]
+script = ExtResource("1_story")
+
+[node name="HeartRateSystem" type="Node"]
+script = ExtResource("2_heart")
+
+[node name="DarknessEventManager" type="Node"]
+script = ExtResource("3_darkness")
+
+[node name="DialogueManager" type="Node"]
+script = ExtResource("4_dialogue")
+
+[node name="TestInteractable" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestInteractable"]
+shape = SubResource("BoxShape3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestInteractable"]
+mesh = SubResource("BoxMesh")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D"]
+
+[sub_resource type="BoxMesh" id="BoxMesh"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+
+[node name="TestButton" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestButton"]
+shape = SubResource("BoxShape3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestButton"]
+mesh = SubResource("BoxMesh")

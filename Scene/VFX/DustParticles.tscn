@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://dust_particles"]
+
+[ext_resource type="Script" path="res://Script/World/DustParticles.gd" id="1_dust"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dust"]
+emission_shape = 3
+emission_box_extents = Vector3(3, 2, 3)
+direction = Vector3(0, 0.2, 0)
+spread = 45.0
+gravity = Vector3(0, -0.01, 0)
+initial_velocity_min = 0.02
+initial_velocity_max = 0.08
+scale_min = 0.002
+scale_max = 0.006
+color = Color(0.95, 0.95, 0.9, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dust"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 0.95, 0.25)
+emission_enabled = true
+emission = Color(1, 1, 0.95, 1)
+emission_energy_multiplier = 0.8
+billboard_mode = 3
+
+[sub_resource type="SphereMesh" id="SphereMesh_dust"]
+radial_segments = 6
+rings = 3
+radius = 0.005
+height = 0.01
+material = SubResource("StandardMaterial3D_dust")
+
+[node name="DustParticles" type="GPUParticles3D"]
+script = ExtResource("1_dust")
+amount = 40
+lifetime = 6.0
+visibility_aabb = AABB(-4, -2, -4, 8, 4, 8)
+process_material = SubResource("ParticleProcessMaterial_dust")
+draw_pass_1 = SubResource("SphereMesh_dust")
